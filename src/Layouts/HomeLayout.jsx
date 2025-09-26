@@ -1,7 +1,14 @@
+import { Outlet } from "react-router-dom";
+
+import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
+
 export default function HomeLayout() {
   return (
-    <div> 
-        <h1>E-commerce</h1>
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }

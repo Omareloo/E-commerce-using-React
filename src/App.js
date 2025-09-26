@@ -1,26 +1,53 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./pages/Home/home";
-import LoginPage from "./pages/Login/login";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import DashboardLayout from "./Layouts/DashBoardLayout";
+import DashBoard from "./pages/DashBoard/DashBoard/DashBoard";
+import Products from "./pages/DashBoard/Products/product";
+import Categories from "./pages/DashBoard/Categories/categories";
+import Orders from "./pages/DashBoard/Orders/orders";
+import HomeLayout from "./Layouts/HomeLayout";
+import HomePage from "./pages/Home/home";
+import ProductDetails from './pages/ProductDetails/ProductDetails';
+import WishList from './pages/WishList/WishList';
+import MyOrders from './pages/MyOrders/MyOrders';
+import LoginPage from './pages/Login/login';
+import Register from "./pages/Register/Register";
 
 function App() {
-  const isAuthenticated = true; 
+  let router = createBrowserRouter([
+    {
+      path: "",
+      element: <HomeLayout />,
+      children: [
+       
+        {index:true, element: <HomePage/> },
+        { path: "ProductDetails", element: <ProductDetails /> },
+        { path: "WishList", element: <WishList /> },
+        { path: "MyOrders", element: <MyOrders /> },
+        { path: "Login", element: <LoginPage /> },
+        { path: "register", element: <Register /> },
+      ],
+    },
+    {
+      path: "dashboard",
+      element: <DashboardLayout />,
+      children: [
+        { index: true, element: <DashBoard /> },
+        { path: "products", element: <Products /> },
+        { path: "categories", element: <Categories /> },
+        { path: "orders", element: <Orders /> },
+        { path: "*", element: <DashBoard /> },
+      ],
+    },
+  ]);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-
-        <Route path="/login" element={<LoginPage />} />
-
-        <Route
-          path="/dashboard/*"
-          element={
-            isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" />
-          }
-        />
-      </Routes>
-    </Router>
+    <>
+      <RouterProvider router={router}></RouterProvider>
+    </>
   );
 }
 
