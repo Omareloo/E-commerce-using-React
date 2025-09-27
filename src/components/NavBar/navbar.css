@@ -1,0 +1,118 @@
+.navbar {
+  background: rgba(15, 23, 36, 0.7);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  position: sticky;
+  top: 0;
+
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px; /* ارتفاع ثابت */
+}
+
+
+/* Brand logo */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #06b6d4, #2563eb);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #001;
+}
+
+/* Menu (right side) */
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.3s;
+}
+
+.menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cta {
+  background: #06b6d4;
+  color: #001 !important;
+  font-weight: 700;
+}
+
+.logout-btn {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+}
+
+.hamburger-label {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .menu {
+    flex-direction: column;
+    background: rgba(15, 23, 36, 0.95);
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+  }
+
+  .hamburger-label {
+    display: flex;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .hamburger:checked ~ nav .menu {
+    display: flex;
+  }
+}
