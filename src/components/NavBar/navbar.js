@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
-import "./Navbar.css";
+import "./navbar.css";
 
 export default function Navbar() {
   return (
