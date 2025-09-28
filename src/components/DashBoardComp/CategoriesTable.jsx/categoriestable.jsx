@@ -1,32 +1,36 @@
-import {
-  Table, TableHead, TableRow, TableCell,
-  TableBody, TableContainer, Paper, IconButton
-} from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 
-export default function CategoryTable({ categories, onEdit, onDelete }) {
+const CategoryTable = ({ categories, onEdit, onDelete }) => {
   return (
-    <TableContainer component={Paper} sx={{ mt: 2 }}>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell>Slug</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
-          {categories.map((c) => (
-            <TableRow key={c._id}>
-              <TableCell>{c.name}</TableCell>
-              <TableCell>{c.slug}</TableCell>
+          {categories.map((category) => (
+            <TableRow key={category._id}>
+              <TableCell>{category.name}</TableCell>
               <TableCell>
-                <IconButton color="primary" onClick={() => onEdit(c)}>
-                  <Edit />
-                </IconButton>
-                <IconButton color="error" onClick={() => onDelete(c._id)}>
-                  <Delete />
-                </IconButton>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => onEdit(category)}
+                  sx={{ mr: 1 }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => onDelete(category._id)}
+                >
+                  Delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}
@@ -34,4 +38,6 @@ export default function CategoryTable({ categories, onEdit, onDelete }) {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default CategoryTable;
