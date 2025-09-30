@@ -4,12 +4,17 @@ import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
  Eslam
 import "./Navbar.css";
+<<<<<<< Updated upstream
 // import { userContext } from "../../Context/Context";
 import { userContext } from "./../../Context/Context";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import "./navbar.css";
  main
 
+=======
+import { userContext } from "../../Context/Context";
+import { IconButton, Tooltip } from "@mui/material";
+>>>>>>> Stashed changes
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
   const navigate = useNavigate();
