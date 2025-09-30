@@ -1,80 +1,85 @@
-import { useState } from "react";
-import { Button } from "@mui/material";
-import ProductTable from "../../../components/DashBoardComp/ProductTable.jsx/producttable";
-import ProductFormModel from "../../../components/DashBoardComp/ProductFormModel/productformmodel";
-
+import { useState, useEffect } from "react";
+import { Container, Typography, Button, Box } from "@mui/material";
+import ProductDialog from "../../../components/DashBoardComp/ProductFormModel/productformmodel";
+import ProductTable from "../../../components/DashBoardComp/ProductTable/producttable";
+import { getProducts, addProduct, updateProduct, deleteProduct } from "../../../services/productservice";
 
 export default function Products() {
-  const [products, setProducts] = useState([
-    {
-      _id: 1,
-      title: "iPhone 15 Pro",
-      price: 1200,
-      image: "https://example.com/iphone15.jpg",
-      description: "Latest iPhone with titanium design and A17 Pro chip.",
-      Catergory: { _id: "c1", name: "Electronics" },
-      SubCatergory: { _id: "s1", name: "Mobiles" },
-      slug: "iphone-15-pro",
-    },
-    {
-      _id: 2,
-      title: "Samsung Galaxy S24",
-      price: 999,
-      image: "https://example.com/galaxyS24.jpg",
-      description: "Samsung flagship phone with AI-powered features.",
-      Catergory: { _id: "c1", name: "Electronics" },
-      SubCatergory: { _id: "s1", name: "Mobiles" },
-      slug: "samsung-galaxy-s24",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState(null);
+  // Load products on mount
+  useEffect(() => {
+    (async () => {
+      const fetched = await getProducts();
+      setProducts(fetched);
+    })();
+  }, []);
 
-  const categories = [{ _id: "c1", name: "Electronics" }];
-  const subCategories = [{ _id: "s1", name: "Mobiles" }];
+  const handleAddClick = () => {
+    setSelectedProduct(null);
+    setOpenDialog(true);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+  const handleEdit = (product) => {
+    setSelectedProduct(product);
+    setOpenDialog(true);
+  };
 
-    if (editing) {
-      setProducts(products.map((p) => (p._id === editing._id ? { ...editing, ...data } : p)));
+  const handleDelete = async (id) => {
+    await deleteProduct(id);
+    setProducts(products.filter((p) => p._id !== id));
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSave = async (productData) => {
+    if (selectedProduct) {
+      const updated = await updateProduct(selectedProduct._id, productData);
+      setProducts((prev) =>
+        prev.map((p) =>
+          p._id === selectedProduct._id ? { ...p, ...updated.result } : p
+        )
+      );
     } else {
-      setProducts([...products, { _id: Date.now(), ...data }]);
+      const added = await addProduct(productData);
+      setProducts((prev) => [...prev, added.result]);
     }
-
-    setOpen(false);
-    setEditing(null);
+    setOpenDialog(false);
   };
 
   return (
-    <div>
-      <Button variant="contained" onClick={() => setOpen(true)} sx={{ mb: 2 }}>
+    <Container sx={{ py: 4 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Products Dashboard
+      </Typography>
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddClick}
+        sx={{ mb: 4 }}
+      >
         Add Product
       </Button>
 
-      <ProductTable
-        products={products}
-        onEdit={(p) => {
-          setEditing(p);
-          setOpen(true);
-        }}
-        onDelete={(id) => setProducts(products.filter((p) => p._id !== id))}
-      />
+      <Box sx={{ mt: 4 }}>
+        <ProductTable
+          products={products}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </Box>
 
-      <ProductFormModel
-        open={open}
-        onClose={() => {
-          setOpen(false);
-          setEditing(null);
-        }}
-        onSubmit={handleSubmit}
-        categories={categories}
-        subCategories={subCategories}
-        initialData={editing}
+      <ProductDialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        onSave={handleSave}
+        product={selectedProduct}
       />
-    </div>
+    </Container>
   );
 }
