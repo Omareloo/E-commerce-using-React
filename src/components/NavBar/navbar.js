@@ -1,10 +1,25 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
+ Eslam
+import "./Navbar.css";
+// import { userContext } from "../../Context/Context";
+import { userContext } from "./../../Context/Context";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import "./navbar.css";
+ main
 
 export default function Navbar() {
+  const { Usertoken, setToken } = useContext(userContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    navigate("/login");
+  };
+
   return (
     <header className="navbar" role="banner">
       {/* Left: Logo + Brand */}
@@ -22,39 +37,59 @@ export default function Navbar() {
       {/* Right: Links */}
       <nav role="navigation">
         <ul className="menu">
-          <li>
-            <NavLink to="">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="ProductDetails">
-              <FaShoppingCart /> ProductDetails
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="MyOrders">
-              <FaBoxOpen /> MyOrders
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="WishList">
-              <FaHeart /> WishList
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="register" className="cta">
-              <FiUserPlus /> Register
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="Login" className="cta">
-              <FiLogIn /> Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="logout" className="logout-btn">
-              <FiLogOut /> Logout
-            </NavLink>
-          </li>
+          {/* روابط أساسية للمسجل دخول */}
+          {Usertoken && (
+            <>
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/products">
+                  <FaShoppingCart /> Products
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/orders">
+                  <FaBoxOpen /> My Orders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/wishlist">
+                  <FaHeart /> Wish List
+                </NavLink>
+              </li>
+              <li>
+                <Tooltip title="Logout">
+                  <IconButton
+                    onClick={handleLogout}
+                    sx={{
+                      color: "white",
+                      bgcolor: "error.main",
+                      "&:hover": { bgcolor: "error.dark" },
+                    }}
+                  >
+                    <FiLogOut />
+                  </IconButton>
+                </Tooltip>
+              </li>
+            </>
+          )}
+
+          {/* روابط لو مش عامل تسجيل دخول */}
+          {!Usertoken && (
+            <>
+              <li>
+                <NavLink to="/register" className="cta">
+                  <FiUserPlus /> Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/login" className="cta">
+                  <FiLogIn /> Login
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>
