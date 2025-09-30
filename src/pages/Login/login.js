@@ -1,40 +1,60 @@
-import style from "../Register/register.module.css"; 
+import style from "../Register/register.module.css";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as Yup from "yup";
+import { userContext } from "../../Context/Context";
 
 export default function Login() {
   const [ApiError, setApiErorr] = useState("");
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate();
+  const {setToken } = useContext(userContext);
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-        "Password must be 8+ chars, include uppercase, lowercase & number"
-      )
-      .required("Password is required"),
+    .required("Password is required"),
   });
+  const handleLogin = async (Userdata) => {
+    try {
+      setSpinner(true);
 
-  const handleLogin = (Userdata) => {
-    setSpinner(true);
-    axios
-      .post("https://ecommerce.routemisr.com/api/v1/auth/signin", Userdata)
-      .then(() => {
-        setSpinner(false);
-        setApiErorr("");
+      const res = await axios.post(
+        "http://127.0.0.1:3000/api/v1/auth/login",
+        Userdata
+      );
+      setApiErorr("");
+      setSpinner(false);
+
+      const token = res?.data?.token;
+
+      if (!token) {
+        // مفيش توكن → نرجعه على صفحة اللوجن
+        navigate("/login");
+        return;
+      }
+
+      // نخزن التوكن
+      localStorage.setItem("token", token);
+      setToken(token);
+
+
+      if (res.data.role == "Admin") {
+        navigate("/dashboard");
+      } else {
+        console.log("Login response:", res.data);
+
         navigate("/");
-      })
-      .catch((error) => {
-        setSpinner(false);
-        const message =
-          error?.response?.data?.message || "Server error, try again";
-        setApiErorr(message);
-      });
+      }
+    } catch (error) {
+      setSpinner(false);
+      const message =
+        error?.response?.data?.message || "Server error, try again";
+      setApiErorr(message);
+      console.error("Login error:", error);
+    }
   };
 
   const formik = useFormik({
@@ -48,8 +68,10 @@ export default function Login() {
 
   const getInputClass = (field) => {
     let classes = style.input;
-    if (formik.touched[field] && formik.errors[field]) classes += ` ${style.inputInvalid}`;
-    if (formik.touched[field] && !formik.errors[field]) classes += ` ${style.inputValid}`;
+    if (formik.touched[field] && formik.errors[field])
+      classes += ` ${style.inputInvalid}`;
+    if (formik.touched[field] && !formik.errors[field])
+      classes += ` ${style.inputValid}`;
     return classes;
   };
 

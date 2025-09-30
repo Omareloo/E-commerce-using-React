@@ -15,6 +15,7 @@ import WishList from './pages/WishList/WishList';
 import MyOrders from './pages/MyOrders/MyOrders';
 import LoginPage from './pages/Login/login';
 import Register from "./pages/Register/Register";
+import {CreateUserProvider} from "./Context/Context";
 
 function App() {
   let router = createBrowserRouter([
@@ -46,7 +47,9 @@ function App() {
 
   return (
     <>
+    <CreateUserProvider>
       <RouterProvider router={router}></RouterProvider>
+      </CreateUserProvider>
     </>
   );
 }

@@ -1,4 +1,8 @@
+import { useContext } from 'react';
+import { userContext } from '../../Context/Context';
 function HomePage() {
-  return <div>Home Page</div>;
+
+  const {Usertoken}=useContext(userContext)
+  return <div>{Usertoken}</div>;
 }   
 export default HomePage;

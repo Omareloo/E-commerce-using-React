@@ -1,3 +1,4 @@
+
 import style from "./register.module.css";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -10,6 +11,7 @@ export default function Register() {
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate();
 
+  // ✅ Validation Schema
   const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[A-Za-z ]{3,30}$/, "Name must be 3-30 letters only")
@@ -29,10 +31,20 @@ export default function Register() {
       .required("RePassword is required"),
   });
 
+  // ✅ API Handler
   const handleRegister = (Userdata) => {
     setSpinner(true);
+
+    const payload = {
+      userName: Userdata.name,
+      email: Userdata.email,
+      password: Userdata.password,
+      confirmpassword: Userdata.rePassword,
+      phoneNumber: Userdata.phone,
+    };
+
     axios
-      .post("https://ecommerce.routemisr.com/api/v1/auth/signup", Userdata)
+      .post("http://127.0.0.1:3000/api/v1/auth/register", payload)
       .then(() => {
         setSpinner(false);
         setApiErorr("");
@@ -46,6 +58,7 @@ export default function Register() {
       });
   };
 
+  // ✅ Formik Setup
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -58,20 +71,23 @@ export default function Register() {
     validationSchema,
   });
 
-  // function to combine classes
+  // ✅ Function to get Input Classes
   const getInputClass = (field) => {
     let classes = style.input;
-    if (formik.touched[field] && formik.errors[field]) classes += ` ${style.inputInvalid}`;
-    if (formik.touched[field] && !formik.errors[field]) classes += ` ${style.inputValid}`;
+    if (formik.touched[field] && formik.errors[field])
+      classes += ` ${style.inputInvalid}`;
+    if (formik.touched[field] && !formik.errors[field])
+      classes += ` ${style.inputValid}`;
     return classes;
   };
 
-  // small reusable component for error message
+  // ✅ Small Component for Field Error
   const FieldError = ({ name }) =>
     formik.touched[name] && formik.errors[name] ? (
       <div className={style.fieldError}>{formik.errors[name]}</div>
     ) : null;
 
+  // ✅ UI
   return (
     <div className={style.page}>
       <form className={style.card} onSubmit={formik.handleSubmit} noValidate>
@@ -92,7 +108,9 @@ export default function Register() {
             className={getInputClass("name")}
             placeholder=" "
           />
-          <label htmlFor="name" className={style.label}>Name</label>
+          <label htmlFor="name" className={style.label}>
+            Name
+          </label>
           <FieldError name="name" />
         </div>
 
@@ -108,7 +126,9 @@ export default function Register() {
             className={getInputClass("email")}
             placeholder=" "
           />
-          <label htmlFor="email" className={style.label}>Email</label>
+          <label htmlFor="email" className={style.label}>
+            Email
+          </label>
           <FieldError name="email" />
         </div>
 
@@ -124,7 +144,9 @@ export default function Register() {
             className={getInputClass("password")}
             placeholder=" "
           />
-          <label htmlFor="password" className={style.label}>Password</label>
+          <label htmlFor="password" className={style.label}>
+            Password
+          </label>
           <FieldError name="password" />
         </div>
 
@@ -140,7 +162,9 @@ export default function Register() {
             className={getInputClass("rePassword")}
             placeholder=" "
           />
-          <label htmlFor="rePassword" className={style.label}>RePassword</label>
+          <label htmlFor="rePassword" className={style.label}>
+            RePassword
+          </label>
           <FieldError name="rePassword" />
         </div>
 
@@ -156,7 +180,9 @@ export default function Register() {
             className={getInputClass("phone")}
             placeholder=" "
           />
-          <label htmlFor="phone" className={style.label}>Phone</label>
+          <label htmlFor="phone" className={style.label}>
+            Phone
+          </label>
           <FieldError name="phone" />
         </div>
 
@@ -167,7 +193,9 @@ export default function Register() {
 
         <p className={style.accountText}>
           Already have an account?{" "}
-          <Link to="/login" className={style.loginLink}>Login</Link>
+          <Link to="/login" className={style.loginLink}>
+            Login
+          </Link>
         </p>
       </form>
     </div>
