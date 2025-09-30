@@ -1,55 +1,48 @@
 import axiosInstance from "../axiousinstance/axiousinstance";
 
+// Get all products
 export const getProducts = async () => {
-  try {
-    const { data } = await axiosInstance.get("/Products");
-    return data.results || [];
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
+  const res = await axiosInstance.get("/products");
+  return res.data.results; // assuming {results: [...]}
 };
 
-export const addProduct = async (product) => {
-  try {
-    const formData = new FormData();
-    Object.keys(product).forEach((key) => {
-      formData.append(key, product[key]);
-    });
-
-    const { data } = await axiosInstance.post("/Products", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return data;
-  } catch (error) {
-    console.error("Error adding product:", error);
-    throw error;
+// Add new product
+export const addProduct = async (data) => {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("price", data.price);
+  formData.append("description", data.description);
+  if (data.image instanceof File) {
+    formData.append("image", data.image);
   }
+  formData.append("Category", data.Category);
+  formData.append("SubCategory", data.SubCategory);
+
+  const res = await axiosInstance.post("/products", formData);
+  return res.data;
 };
 
-export const updateProduct = async (id, product) => {
-  try {
-    const formData = new FormData();
-    Object.keys(product).forEach((key) => {
-      formData.append(key, product[key]);
-    });
-
-    const { data } = await axiosInstance.put(`/Products/${id}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return data;
-  } catch (error) {
-    console.error("Error updating product:", error);
-    throw error;
+// Update product
+export const updateProduct = async (id, data) => {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("price", data.price);
+  formData.append("description", data.description);
+  if (data.image instanceof File) {
+    formData.append("image", data.image);
   }
+  formData.append("Category", data.Category);
+  formData.append("SubCategory", data.SubCategory);
+
+  await axiosInstance.put(`/products/${id}`, formData);
+
+  // دايماً هات أحدث نسخة بعد التحديث (populated)
+  const updated = await axiosInstance.get(`/products/${id}`);
+  return { result: updated.data.result };
 };
 
+// Delete product
 export const deleteProduct = async (id) => {
-  try {
-    const { data } = await axiosInstance.delete(`/Products/${id}`);
-    return data;
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    throw error;
-  }
+  const res = await axiosInstance.delete(`/products/${id}`);
+  return res.data;
 };

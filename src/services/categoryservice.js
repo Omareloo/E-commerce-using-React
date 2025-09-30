@@ -1,41 +1,33 @@
-// services/categoryService.js
 import axiosInstance from "../axiousinstance/axiousinstance";
+// Get all categories
 export const getCategories = async () => {
-  try {
-    const { data } = await axiosInstance.get("/Categories");
-    return data.Categories; // array of categories
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    return [];
-  }
+  const res = await axiosInstance.get("/categories");
+  return res.data.Categories;
 };
 
-export const addCategory = async (category) => {
-  try {
-    const { data } = await axiosInstance.post("/Categories", category);
-    return data;
-  } catch (error) {
-    console.error("Error adding category:", error);
-    throw error;
-  }
+// Add category
+export const addCategory = async (data) => {
+  const res = await axiosInstance.post("/categories", data);
+  return res.data;
 };
 
-export const updateCategory = async (id, category) => {
-  try {
-    const { data } = await axiosInstance.put(`/Categories/${id}`, category);
-    return data;
-  } catch (error) {
-    console.error("Error updating category:", error);
-    throw error;
-  }
+// Update category
+export const updateCategory = async (id, data) => {
+  const res = await axiosInstance.put(`/categories/${id}`, data);
+  return res.data;
 };
 
+// Delete category
 export const deleteCategory = async (id) => {
-  try {
-    const { data } = await axiosInstance.delete(`/Categories/${id}`);
-    return data;
-  } catch (error) {
-    console.error("Error deleting category:", error);
-    throw error;
-  }
+  const res = await axiosInstance.delete(`/categories/${id}`);
+  return res.data;
 };
+
+
+
+// Get all subcategories
+export const getSubCategories = async () => {
+  const res = await axiosInstance.get("/subcategories");
+  return res.data.results;
+};
+
