@@ -2,12 +2,9 @@ import React, { useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
- Eslam
-import "./Navbar.css";
-import { userContext } from "./../../Context/Context";
-import { Button, IconButton, Tooltip } from "@mui/material";
-import { userContext } from "../../Context/Context";
 import { IconButton, Tooltip } from "@mui/material";
+import { userContext } from "../../Context/Context";
+import "./Navbar.css";
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
@@ -23,21 +20,22 @@ export default function Navbar() {
     <header className="navbar" role="banner">
       {/* Left: Logo + Brand */}
       <Link to="/" className="brand">
-        <div className="logo">E</div>
-        E_Commerce
+        <div className="logo">🛒</div>
+        FreshChart
       </Link>
 
-      {/* Hamburger menu for mobile */}
+      {/* Hamburger for mobile */}
       <input className="hamburger" id="nav-toggle" type="checkbox" />
       <label className="hamburger-label" htmlFor="nav-toggle">
         <span></span>
+        <span></span>
+        <span></span>
       </label>
 
-      {/* Right: Links */}
+      {/* Menu Links */}
       <nav role="navigation">
         <ul className="menu">
-          {/* روابط أساسية للمسجل دخول */}
-          {Usertoken && (
+          {Usertoken ? (
             <>
               <li>
                 <NavLink to="/">Home</NavLink>
@@ -61,6 +59,7 @@ export default function Navbar() {
                 <Tooltip title="Logout">
                   <IconButton
                     onClick={handleLogout}
+                    className="logout-btn"
                     sx={{
                       color: "white",
                       bgcolor: "error.main",
@@ -72,10 +71,7 @@ export default function Navbar() {
                 </Tooltip>
               </li>
             </>
-          )}
-
-          {/* روابط لو مش عامل تسجيل دخول */}
-          {!Usertoken && (
+          ) : (
             <>
               <li>
                 <NavLink to="/register" className="cta">
