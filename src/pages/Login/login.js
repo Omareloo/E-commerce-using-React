@@ -41,7 +41,7 @@ export default function Login() {
       setToken(token);
 
 
-      if (res.data.role == "Admin") {
+      if (res.data.role === "Admin") {
         navigate("/dashboard");
       } else {
         console.log("Login response:", res.data);

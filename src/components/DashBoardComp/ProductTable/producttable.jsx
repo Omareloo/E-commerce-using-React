@@ -7,7 +7,7 @@ import {
   TableRow,
   Paper,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
 const ProductTable = ({ products, onEdit, onDelete }) => {
   return (
@@ -32,23 +32,21 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>
-                {product.image instanceof File ? (
-                  product.image.name
-                ) : (
-                  product.image || 'No image'
-                )}
+                {product.image instanceof File
+                  ? product.image.name
+                  : product.image || "No image"}
               </TableCell>
               <TableCell>{product.description}</TableCell>
-              <TableCell>{product.Catergory}</TableCell>
-              <TableCell>{product.SubCatergory}</TableCell>
+              <TableCell>{product.Category?.name || "No Category"}</TableCell>
+              <TableCell>{product.SubCategory?.name || "No SubCategory"}</TableCell>
               <TableCell>{product.slug}</TableCell>
-              <TableCell>{product.createdAt}</TableCell>
+              <TableCell>{new Date(product.createdAt).toLocaleString()}</TableCell>
               <TableCell>
                 <Button
                   variant="outlined"
                   color="primary"
                   onClick={() => onEdit(product)}
-                  className="mr-2"
+                  sx={{ mr: 1 }}
                 >
                   Edit
                 </Button>
@@ -69,4 +67,3 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
 };
 
 export default ProductTable;
-

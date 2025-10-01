@@ -4,7 +4,7 @@ import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
 import { IconButton, Tooltip } from "@mui/material";
 import { userContext } from "../../Context/Context";
-import "./Navbar.css";
+import "./navbar.css";
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
