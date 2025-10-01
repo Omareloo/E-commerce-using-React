@@ -10,13 +10,9 @@ import ProductDetails from './pages/ProductDetails/ProductDetails';
 import WishList from './pages/WishList/WishList';
 import MyOrders from './pages/MyOrders/MyOrders';
 import LoginPage from './pages/Login/login';
- 
-import Register from "./pages/Register/Register";
-import Users from "./pages/DashBoard/Users/user";
- 
- import { CreateUserProvider } from './Context/Context';
+import Register from './pages/Register/Register';
+import { CreateUserProvider } from './Context/Context';
 import Cart from './pages/Cart/Cart';
- 
 
 function App() {
   let router = createBrowserRouter([
@@ -38,15 +34,10 @@ function App() {
       element: <DashboardLayout />,
       children: [
         { index: true, element: <DashBoard /> },
- 
-        { path: "products", element: <Products /> },
-        { path: "categories", element: <Categories /> },
-        { path: "orders", element: <Orders /> },
-        { path: "users", element: <Users /> },
-        { path: "*", element: <DashBoard /> },
- 
-   
- 
+        { path: 'products', element: <Products /> },
+        { path: 'categories', element: <Categories /> },
+        { path: 'orders', element: <Orders /> },
+        { path: '*', element: <DashBoard /> },
       ],
     },
   ]);
