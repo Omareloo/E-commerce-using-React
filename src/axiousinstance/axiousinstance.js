@@ -1,13 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: 'http://localhost:3000/api/v1',
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
   if (token) {
-    config.headers.Authorization = `Admin ${token}`;
+    const prefix = role === 'Admin' ? 'Admin' : 'Bearer';
+    config.headers.Authorization = `${prefix} ${token}`;
   }
   return config;
 });
