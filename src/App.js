@@ -14,6 +14,7 @@ import WishList from './pages/WishList/WishList';
 import MyOrders from './pages/MyOrders/MyOrders';
 import LoginPage from './pages/Login/login';
 import Register from "./pages/Register/Register";
+import Users from "./pages/DashBoard/Users/user";
 
 function App() {
   let router = createBrowserRouter([
@@ -38,6 +39,7 @@ function App() {
         { path: "products", element: <Products /> },
         { path: "categories", element: <Categories /> },
         { path: "orders", element: <Orders /> },
+        { path: "users", element: <Users /> },
         { path: "*", element: <DashBoard /> },
       ],
     },

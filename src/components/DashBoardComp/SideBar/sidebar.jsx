@@ -1,8 +1,16 @@
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PeopleIcon from "@mui/icons-material/People"; // 👤 أيقونة Users
 import { Link, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -12,6 +20,7 @@ const menuItems = [
   { text: "Products", path: "/dashboard/products", icon: <InventoryIcon /> },
   { text: "Categories", path: "/dashboard/categories", icon: <CategoryIcon /> },
   { text: "Orders", path: "/dashboard/orders", icon: <ShoppingCartIcon /> },
+  { text: "Users", path: "/dashboard/users", icon: <PeopleIcon /> }, // ✅ Users
 ];
 
 function SideBarComponent() {
