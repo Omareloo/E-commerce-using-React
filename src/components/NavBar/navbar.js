@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaShoppingCart, FaBoxOpen } from 'react-icons/fa';
-import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
-import { IconButton, Tooltip } from '@mui/material';
-import { userContext } from '../../Context/Context';
-import './navbar.css';
+import React, { useContext } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { FaHeart, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
+import { FiLogIn, FiUserPlus, FiLogOut } from "react-icons/fi";
+import { IconButton, Tooltip } from "@mui/material";
+import { userContext } from "../../Context/Context";
+import "./navbar.css";
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setToken(null);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -56,19 +56,14 @@ export default function Navbar() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/Cart">
-                  <FaShoppingCart /> Cart
-                </NavLink>
-              </li>
-              <li>
                 <Tooltip title="Logout">
                   <IconButton
                     onClick={handleLogout}
                     className="logout-btn"
                     sx={{
-                      color: 'white',
-                      bgcolor: 'error.main',
-                      '&:hover': { bgcolor: 'error.dark' },
+                      color: "white",
+                      bgcolor: "error.main",
+                      "&:hover": { bgcolor: "error.dark" },
                     }}
                   >
                     <FiLogOut />

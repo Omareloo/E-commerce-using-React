@@ -6,10 +6,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
-  const role = localStorage.getItem('role');
-  if (token) {
-    const prefix = role === 'Admin' ? 'Admin' : 'Bearer';
-    config.headers.Authorization = `${prefix} ${token}`;
+  if (token) {    
+    config.headers.Authorization = `Admin ${token}`;
   }
   return config;
 });
