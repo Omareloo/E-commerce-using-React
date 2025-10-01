@@ -1,0 +1,225 @@
+:root{
+  --card-bg: #fbfbfb;
+  --accent: #5b8def;
+  --danger: #e74c3c;
+  --muted: #6b6b6b;
+  --input-border: #ddd;
+  --success: #2ecc71;
+}
+
+.page{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #f6f9ff 0%, #ffffff 100%);
+  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.card{
+  width: 420px;
+  background: var(--card-bg);
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(39, 64, 135, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Title */
+.title p{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+/* API error */
+.apiError{
+  background: #ffecec;
+  color: var(--danger);
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* Input group - floating label style */
+.inputGroup{
+  position: relative;
+  margin-top: 4px;
+}
+
+.input{
+  width: 100%;
+  padding: 14px 12px 12px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(91,141,239,0.12);
+}
+
+/* label floats above when input has focus or value (using placeholder trick) */
+.label{
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: all .18s ease;
+}
+
+/* When input not empty or focused, move label up */
+.input:focus + .label,
+.inputValid + .label,
+.inputInvalid + .label,
+.input::placeholder{ /* placeholder used only to detect non-empty in some browsers */
+}
+
+/* For better floating label effect, use :not(:placeholder-shown) to detect non-empty */
+.input:not(:placeholder-shown) + .label,
+.input:focus + .label{
+  transform: translateY(-12px) scale(.85);
+  color: var(--accent);
+  background: var(--card-bg);
+  padding: 0 4px;
+}
+
+/* Validation states */
+.inputValid{
+  border: 1px solid var(--success);
+}
+
+.inputInvalid{
+  border: 1px solid var(--danger);
+}
+
+.fieldError{
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--danger);
+  background: rgba(231,76,60,0.06);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+/* Submit */
+.btnSubmit{
+  margin-top: 6px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: .3px;
+  font-size: 15px;
+  background: linear-gradient(90deg, var(--accent), #3a6fe8);
+  color: white;
+  box-shadow: 0 6px 18px rgba(59,110,232,0.18);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
+}
+
+.btnSubmit:active{ transform: translateY(1px); }
+.btnSubmit:disabled{ opacity: .7; cursor: not-allowed; }
+
+/* spinner simple */
+.spinner{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* Social section */
+.socialLoginWrapper{
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.orText{
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* Buttons */
+.socialButtons{
+  display: flex;
+  gap: 10px;
+}
+
+.socialBtn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.facebook{
+  background: linear-gradient(180deg, #3b5998, #334f88);
+}
+
+.google{
+  background: linear-gradient(180deg, #db4437, #c33d31);
+}
+
+/* accessibility helper for icon-only buttons */
+.srOnly{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* footer text */
+.accountText{
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.loginLink{
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.loginLink:hover{ text-decoration: underline; }
+
+
+@media (max-width: 480px){
+  .card{ width: 92%; padding: 20px; }
+}
