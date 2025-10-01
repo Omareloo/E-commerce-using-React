@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,38 +7,52 @@ import {
   TextField,
   Button,
   Box,
-  Stack
-} from '@mui/material';
+  Stack,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import { getCategories, getSubCategories } from "../../../services/categoryservice";
 
 const ProductDialog = ({ open, onClose, onSave, product }) => {
   const [formData, setFormData] = useState({
-    title: '',
+    title: "",
     price: 0,
     image: null,
-    description: '',
-    Catergory: '',
-    SubCatergory: '',
-    slug: '',
+    description: "",
+    Category: "",
+    SubCategory: "",
   });
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      setCategories(await getCategories());
+      setSubcategories(await getSubCategories());
+    })();
+  }, []);
 
   useEffect(() => {
     if (product) {
       setFormData({
         ...product,
-        image: product.image instanceof File ? product.image : null,
+        Category: product.Category?._id || "",
+        SubCategory: product.SubCategory?._id || "",
+        image: null,
       });
     } else {
       setFormData({
-        title: '',
+        title: "",
         price: 0,
         image: null,
-        description: '',
-        Catergory: '',
-        SubCatergory: '',
-        slug: '',
+        description: "",
+        Category: "",
+        SubCategory: "",
       });
     }
-  }, [product]);
+  }, [product, open]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,78 +68,77 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+    onSave(formData); 
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{product ? 'Edit Product' : 'Add Product'}</DialogTitle>
-    <DialogContent>
-  <Box component="form" sx={{ py: 3 }}>
-    <Stack spacing={3}>
-      <TextField
-        fullWidth
-        label="Title"
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-      />
-      <TextField
-        fullWidth
-        label="Price"
-        name="price"
-        type="number"
-        value={formData.price}
-        onChange={handleChange}
-      />
-      <TextField
-        fullWidth
-        label="Image"
-        type="file"
-        InputLabelProps={{ shrink: true }}
-        inputProps={{ accept: "image/*" }}
-        onChange={handleFileChange}
-      />
-      {formData.image && (
-        <Box>
-          {formData.image instanceof File
-            ? formData.image.name
-            : formData.image || "No image selected"}
+      <DialogTitle>{product ? "Edit Product" : "Add Product"}</DialogTitle>
+      <DialogContent>
+        <Box component="form" sx={{ py: 3 }}>
+          <Stack spacing={3}>
+            <TextField
+              fullWidth
+              label="Title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              label="Price"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ accept: "image/*" }}
+              onChange={handleFileChange}
+            />
+            <TextField
+              fullWidth
+              label="Description"
+              name="description"
+              multiline
+              rows={4}
+              value={formData.description}
+              onChange={handleChange}
+            />
+            <FormControl fullWidth>
+              <InputLabel>Category</InputLabel>
+              <Select
+                name="Category"
+                value={formData.Category}
+                onChange={handleChange}
+              >
+                {categories.map((c) => (
+                  <MenuItem key={c._id} value={c._id}>
+                    {c.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>SubCategory</InputLabel>
+              <Select
+                name="SubCategory"
+                value={formData.SubCategory}
+                onChange={handleChange}
+              >
+                {subcategories.map((s) => (
+                  <MenuItem key={s._id} value={s._id}>
+                    {s.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
         </Box>
-      )}
-      <TextField
-        fullWidth
-        label="Description"
-        name="description"
-        multiline
-        rows={4}
-        value={formData.description}
-        onChange={handleChange}
-      />
-      <TextField
-        fullWidth
-        label="Category ID"
-        name="Catergory"
-        value={formData.Catergory}
-        onChange={handleChange}
-      />
-      <TextField
-        fullWidth
-        label="SubCategory ID"
-        name="SubCatergory"
-        value={formData.SubCatergory}
-        onChange={handleChange}
-      />
-      <TextField
-        fullWidth
-        label="Slug"
-        name="slug"
-        value={formData.slug}
-        onChange={handleChange}
-      />
-    </Stack>
-  </Box>
-</DialogContent>
+      </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
           Cancel

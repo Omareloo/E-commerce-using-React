@@ -1,21 +1,31 @@
 import { useState, useEffect } from "react";
 import { Container, Typography, Button, Box } from "@mui/material";
-import ProductDialog from "../../../components/DashBoardComp/ProductFormModel/productformmodel";
+import {
+  getProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} from "../../../services/productservice";
 import ProductTable from "../../../components/DashBoardComp/ProductTable/producttable";
-import { getProducts, addProduct, updateProduct, deleteProduct } from "../../../services/productservice";
+import ProductDialog from "../../../components/DashBoardComp/ProductFormModel/productformmodel";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Load products on mount
   useEffect(() => {
-    (async () => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
       const fetched = await getProducts();
       setProducts(fetched);
-    })();
-  }, []);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };
 
   const handleAddClick = () => {
     setSelectedProduct(null);
@@ -28,8 +38,12 @@ export default function Products() {
   };
 
   const handleDelete = async (id) => {
-    await deleteProduct(id);
-    setProducts(products.filter((p) => p._id !== id));
+    try {
+      await deleteProduct(id);
+      setProducts(products.filter((p) => p._id !== id));
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
   };
 
   const handleDialogClose = () => {
@@ -37,18 +51,18 @@ export default function Products() {
   };
 
   const handleSave = async (productData) => {
-    if (selectedProduct) {
-      const updated = await updateProduct(selectedProduct._id, productData);
-      setProducts((prev) =>
-        prev.map((p) =>
-          p._id === selectedProduct._id ? { ...p, ...updated.result } : p
-        )
-      );
-    } else {
-      const added = await addProduct(productData);
-      setProducts((prev) => [...prev, added.result]);
+    try {
+      if (selectedProduct) {
+        await updateProduct(selectedProduct._id, productData);
+      } else {
+        await addProduct(productData);
+      }
+
+      await fetchProducts(); 
+      setOpenDialog(false);  
+    } catch (error) {
+      console.error("Failed to save product:", error);
     }
-    setOpenDialog(false);
   };
 
   return (
