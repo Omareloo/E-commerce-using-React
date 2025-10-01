@@ -1,20 +1,19 @@
+/* ---------- Navbar Base ---------- */
 .navbar {
-  background: rgba(15, 23, 36, 0.7);
+  background: #c8daecd1;
   backdrop-filter: blur(10px);
-  color: #fff;
+  color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 16px;
   position: sticky;
   top: 0;
-
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 60px; /* ارتفاع ثابت */
+  height: 60px; 
 }
-
 
 /* Brand logo */
 .brand {
@@ -24,9 +23,8 @@
   font-weight: 700;
   font-size: 18px;
   text-decoration: none;
-  color: #fff;
+  color:#001;
 }
-
 .logo {
   width: 40px;
   height: 40px;
@@ -38,7 +36,7 @@
   color: #001;
 }
 
-/* Menu (right side) */
+/* Menu Links */
 .menu {
   list-style: none;
   display: flex;
@@ -50,7 +48,7 @@
 
 .menu a {
   text-decoration: none;
-  color: #fff;
+  color: #001;
   padding: 8px 12px;
   border-radius: 8px;
   display: flex;
@@ -76,29 +74,55 @@
   gap: 6px;
 }
 
-/* Hamburger */
+/* Hamburger (hidden by default) */
 .hamburger {
   display: none;
 }
-
 .hamburger-label {
   display: none;
 }
 
-/* Responsive */
+/* ---------- Responsive (Mobile) ---------- */
 @media (max-width: 768px) {
+  /* Menu hidden by default */
   .menu {
     flex-direction: column;
-    background: rgba(15, 23, 36, 0.95);
+    background: rgba(113, 131, 160, 0.95);
     position: absolute;
     top: 60px;
-    right: 10px;
-    left: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    max-width: 400px;
     padding: 20px;
     border-radius: 12px;
     display: none;
+    z-index: 999;
   }
 
+  /* Center each menu item */
+  .menu li {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  .menu a,
+  .menu button,
+  .menu .MuiIconButton-root {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .menu .MuiIconButton-root {
+    background: none !important;
+    color: #fff !important;
+  }
+
+  /* Hamburger visible */
   .hamburger {
     display: block;
     opacity: 0;
@@ -108,10 +132,37 @@
 
   .hamburger-label {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 14px;
     cursor: pointer;
     margin-left: auto;
+    z-index: 1001;
   }
 
+  .hamburger-label span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #001;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  /* Animate Hamburger to X */
+  .hamburger:checked + .hamburger-label span:nth-child(1) {
+    transform: rotate(45deg) translate(0, 7px);
+  }
+  .hamburger:checked + .hamburger-label span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger:checked + .hamburger-label span:nth-child(3) {
+    transform: rotate(-45deg) translate(0, -7px);
+  }
+
+  /* Show menu when checked */
   .hamburger:checked ~ nav .menu {
     display: flex;
   }

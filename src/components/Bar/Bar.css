@@ -1,0 +1,76 @@
+.categories-bar {
+  display: flex;
+  overflow-x: auto;   
+  gap: 12px;
+  padding: 10px 15px;
+  justify-content: center;
+  flex-wrap: wrap;    
+  scrollbar-width: none;
+  animation: fadeInUp 0.8s ease forwards; /* انيميشن دخول */
+}
+
+.categories-bar::-webkit-scrollbar {
+  display: none; 
+}
+
+.category-btn {
+  white-space: nowrap;
+  padding: 12px 22px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, rgb(8, 95, 125),#09c);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  animation: popUp 0.6s ease both;
+}
+
+/* تأثير عند الـ hover */
+.category-btn:hover {
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  animation: pulse 1s infinite; /* انيميشن نبض */
+}
+
+/* تأثير عند الضغط */
+.category-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* ==== Keyframes ==== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
