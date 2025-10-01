@@ -5,21 +5,10 @@ export const getCategories = async () => {
   return res.data.Categories;
 };
 
-export const addCategory = async (category) => {
-  try {
-    const { data } = await axiosInstance.post("/Categories", category);
-    return data;
-  } catch (error) {
-    console.error("Error adding category:", error);
-    throw error;
-  }
-
-
 // Add category
 export const addCategory = async (data) => {
   const res = await axiosInstance.post("/categories", data);
   return res.data;
-
 };
 
 // Update category
