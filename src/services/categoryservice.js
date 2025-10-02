@@ -5,14 +5,7 @@ export const getCategories = async () => {
   return res.data.Categories;
 };
 
-export const addCategory = async (category) => {
-  try {
-    const { data } = await axiosInstance.post("/Categories", category);
-    return data;
-  } catch (error) {
-    console.error("Error adding category:", error);
-    throw error;
-  }
+
 
 
 // Add category
@@ -40,5 +33,4 @@ export const deleteCategory = async (id) => {
 export const getSubCategories = async () => {
   const res = await axiosInstance.get("/subcategories");
   return res.data.results;
-};
-
+}
