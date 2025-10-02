@@ -23,7 +23,6 @@ const Sidebar = ({ totalPrice, onMakeOrder, itemCount }) => {
         mt: { xs: 0, md: 5 },
         boxSizing: 'border-box',
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        borderRadius: 2,
         '&:hover': {
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         },
