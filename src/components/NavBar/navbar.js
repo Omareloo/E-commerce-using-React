@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaShoppingCart, FaBoxOpen } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaBoxOpen, FaSearch } from 'react-icons/fa';
 import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
 import { IconButton, Tooltip } from '@mui/material';
 import { userContext } from '../../Context/Context';
@@ -9,6 +9,8 @@ import './navbar.css';
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
   const navigate = useNavigate();
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -16,15 +18,22 @@ export default function Navbar() {
     navigate('/login');
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+      setShowSearch(false);
+      setSearchQuery("");
+    }
+  };
+
   return (
     <header className="navbar" role="banner">
-      {/* Left: Logo + Brand */}
       <Link to="/" className="brand">
         <div className="logo">🛒</div>
         FreshChart
       </Link>
 
-      {/* Hamburger for mobile */}
       <input className="hamburger" id="nav-toggle" type="checkbox" />
       <label className="hamburger-label" htmlFor="nav-toggle">
         <span></span>
@@ -32,27 +41,18 @@ export default function Navbar() {
         <span></span>
       </label>
 
-      {/* Menu Links */}
       <nav role="navigation">
         <ul className="menu">
           {Usertoken ? (
             <>
               <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/products">
-                  <FaShoppingCart /> Products
-                </NavLink>
-              </li>
-              <li>
                 <NavLink to="/orders">
-                  <FaBoxOpen /> My Orders
+                  <FaBoxOpen /> MyOrders
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/wishlist">
-                  <FaHeart /> Wish List
+                  <FaHeart /> WishList
                 </NavLink>
               </li>
               <li>
@@ -60,6 +60,19 @@ export default function Navbar() {
                   <FaShoppingCart /> Cart
                 </NavLink>
               </li>
+
+              {/* Search Button */}
+              <li>
+                <Tooltip title="Search">
+                  <IconButton
+                    onClick={() => setShowSearch(!showSearch)}
+                    sx={{ color: '#09c' }}
+                  >
+                    <FaSearch />
+                  </IconButton>
+                </Tooltip>
+              </li>
+
               <li>
                 <Tooltip title="Logout">
                   <IconButton
@@ -92,6 +105,18 @@ export default function Navbar() {
           )}
         </ul>
       </nav>
+
+      {/* Search Box */}
+      {showSearch && (
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
+      )}
     </header>
   );
 }

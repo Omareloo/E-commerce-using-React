@@ -1,16 +1,20 @@
 import React from "react";
-import "./Bar.css"; // هنعمل استايل بسيط
+import "./Bar.css";
 
 export default function Bar({ categories, onSelect }) {
   return (
     <div className="categories-bar">
-      {categories.map((cat, i) => (
+      <button className="category-btn" onClick={() => onSelect("all")}>
+        All
+      </button>
+
+      {categories.map((cat) => (
         <button
-          key={i}
+          key={cat._id}
           className="category-btn"
-          onClick={() => onSelect(cat)}
+          onClick={() => onSelect(cat._id)}
         >
-          {cat}
+          {cat.name}
         </button>
       ))}
     </div>

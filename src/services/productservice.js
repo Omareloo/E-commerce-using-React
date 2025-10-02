@@ -1,10 +1,11 @@
 import axiosInstance from "../axiousinstance/axiousinstance";
 
 // Get all products
-export const getProducts = async () => {
-  const res = await axiosInstance.get("/products");
-  return res.data.results; // assuming {results: [...]}
+export const getProducts = async (page=1) => {
+  const res = await axiosInstance.get(`/products?page=${page}`);
+  return res.data; // assuming {results: [...]}
 };
+
 
 // Add new product
 export const addProduct = async (data) => {

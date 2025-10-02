@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 
 const ProductTable = ({ products, onEdit, onDelete }) => {
+  console.log(products);
+  
   return (
     <TableContainer component={Paper}>
       <Table>

@@ -9,6 +9,8 @@ export default function Users() {
     const fetchUsers = async () => {
       try {
         const data = await getAllUsers();
+        console.log(data);
+        
         setUsers(data);
       } catch (err) {
         console.error("Error fetching users", err);

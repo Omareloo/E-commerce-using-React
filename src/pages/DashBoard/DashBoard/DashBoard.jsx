@@ -30,7 +30,7 @@ export default function DashBoard() {
         ]);
 
         setCounts({
-          products: products.length,
+          products: products.total,
           categories: categories.length,
           orders: orders.length,
           users: users.length,
