@@ -40,10 +40,12 @@
 /* products grid */
 .products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 0 20px 40px; /* bottom spacing */
+  grid-template-columns: repeat(5, 1fr); /* 5 أعمدة ثابتة */
+  gap: 15px;
+  padding: 0 20px 40px;
+  justify-items: center; /* يثبت كل كارت في منتصف العمود */
 }
+
 
 @media (max-width: 768px) {
   .products {

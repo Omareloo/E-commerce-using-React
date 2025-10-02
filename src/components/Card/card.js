@@ -14,9 +14,7 @@ export default function Card({ product }) {
       <div className="wishlist-icon" onClick={toggleFav}>
         <FaHeart className={isFav ? "heart active" : "heart"} />
       </div>
-      
-      <img src={product.image} alt={product.title} className="card-img" />
-      
+      <img src={`http://localhost:3000/uploads/products/${product.image}`} alt={product.title} className="card-img" />
       <div className="card-body">
         <h3 className="card-title">
           {product.title.split(" ").slice(0, 3).join(" ")}
