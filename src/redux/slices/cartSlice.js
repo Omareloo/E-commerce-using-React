@@ -6,7 +6,7 @@ import {
   removeFromCart,
   clearCart,
   updateCartQuantity,
-} from '../services/cartService';
+} from '../../services/cartService';
 
 // Thunks
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {

@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchWishlist, removeFromWishlist, clearWishlist } from '../../redux/wishlistSlice';
+import { fetchWishlist, removeFromWishlist, clearWishlist } from '../../redux/slices/wishlistSlice';
 
 import WishlistHeader from '../../components/WishlistComp/WishlistHeader/WishlistHeader';
 import WishlistTable from '../../components/WishlistComp/WishlistTable/WishlistTable';
 import WishlistEmpty from '../../components/WishlistComp/WishlistEmpty/WishlistEmpty';
 import { useNavigate } from 'react-router-dom';
-import { addCartItem } from '../../redux/cartSlice';
+import { addCartItem } from '../../redux/slices/cartSlice';
 import MyButton from '../../components/CartComponents/MyButton/MyButton';
 
 const WishList = () => {
