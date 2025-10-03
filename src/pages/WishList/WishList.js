@@ -7,7 +7,7 @@ import WishlistHeader from '../../components/WishlistComp/WishlistHeader/Wishlis
 import WishlistTable from '../../components/WishlistComp/WishlistTable/WishlistTable';
 import WishlistEmpty from '../../components/WishlistComp/WishlistEmpty/WishlistEmpty';
 import { useNavigate } from 'react-router-dom';
-import { addCartItem } from '../../redux/cartSlice';
+import { addCartItem, removeCartItem } from '../../redux/cartSlice';
 import MyButton from '../../components/CartComponents/MyButton/MyButton';
 
 const WishList = () => {
@@ -25,6 +25,10 @@ const WishList = () => {
 
   const handleAddToCart = (productId) => {
     dispatch(addCartItem({ productId, quantity: 1 }));
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeCartItem(productId));
   };
 
   const handleDeleteAll = () => {
@@ -54,6 +58,7 @@ const WishList = () => {
             onRemove={handleRemove}
             onBrowse={handleBrowse}
             onAddToCart={handleAddToCart}
+            onRemoveFromCart={handleRemoveFromCart}
           />
         </>
       ) : (

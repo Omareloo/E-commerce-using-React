@@ -1,9 +1,9 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import MyButton from '../CartComponents/MyButton/MyButton';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist }) => {
+const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist, isInCart, isInWishlist }) => {
   if (!product) return null;
 
   return (
@@ -44,16 +44,17 @@ const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist }) => {
         </Typography>
         <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
           <MyButton
-            label="Add to Cart"
+            label={isInCart ? 'Remove from Cart' : 'Add to Cart'}
             handleAction={onAddToCart}
             icon={ShoppingCartIcon}
-            message="Item added to cart"
+            message={isInCart ? 'Item removed from cart' : 'Item added to cart'}
           />
+
           <MyButton
-            label="Add to Favourite"
+            label={isInWishlist ? 'Remove from Favourite' : 'Add to Favourite'}
             handleAction={onAddToWishlist}
             icon={BookmarkBorderIcon}
-            message="Item added to favourite"
+            message={isInWishlist ? 'Item removed from favourite' : 'Item added to favourite'}
           />
         </Box>
       </Box>

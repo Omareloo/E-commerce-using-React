@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductDetailCard from '../../components/ProductDetailCard/ProductDetailCard';
-import { addCartItem } from '../../redux/cartSlice';
-import { addToWishlist } from '../../redux/wishlistSlice';
+import { addCartItem, removeCartItem } from '../../redux/cartSlice';
+import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../redux/wishlistSlice';
 import { Typography, Box, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import axiosInstance from '../../axiousinstance/axiousinstance';
@@ -14,6 +14,12 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const isInCart = cartItems.some((i) => i.productId._id === id);
+  const isInWishlist = wishlistItems.some((i) => i.productId._id === id);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -30,11 +36,21 @@ const ProductDetails = () => {
   }, [id]);
 
   const handleAddToCart = () => {
-    dispatch(addCartItem({ productId: product._id, quantity: 1 }));
+    if (isInCart) {
+      dispatch(removeCartItem(id));
+    } else {
+      dispatch(addCartItem({ productId: id, quantity: 1 }));
+    }
   };
 
   const handleAddToWishlist = () => {
-    dispatch(addToWishlist(product._id));
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(id));
+    } else {
+      dispatch(addToWishlist(id));
+    }
+
+    dispatch(fetchWishlist());
   };
 
   const handleBrowse = () => {
@@ -51,6 +67,8 @@ const ProductDetails = () => {
           product={product}
           onAddToCart={handleAddToCart}
           onAddToWishlist={handleAddToWishlist}
+          isInCart={isInCart}
+          isInWishlist={isInWishlist}
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 3 }}>

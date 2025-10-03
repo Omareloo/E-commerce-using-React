@@ -13,22 +13,33 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const WishlistRow = ({ item, onRemove, handleClick }) => {
+const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
+  const cartItems = useSelector((state) => state.cart.items);
+  const isInCart = cartItems.some((cartItem) => cartItem.productId._id === item.productId._id);
+
   const [anchorEl, setAnchorEl] = useState(null);
-  const [message, setMessage] = useState(null);
 
-  const handleAddToCart = (event) => {
-    if (handleClick) {
-      handleClick();
+  const [anchorel, setAnchorel] = useState(null);
+  const [message, setMessage] = useState('');
+
+  const handleCartAction = (event) => {
+    if (isInCart) {
+      if (onRemoveFromCart) onRemoveFromCart(item.productId._id);
+      setMessage('Item removed from cart');
+    } else {
+      if (onAddToCart) onAddToCart(item.productId._id);
+      setMessage('Item added to cart');
     }
-    setMessage(event.currentTarget);
+
+    setAnchorel(event.currentTarget);
     setTimeout(() => {
-      setMessage(null);
+      setAnchorel(null);
     }, 1000);
   };
 
-  const opening = Boolean(message);
+  const opening = Boolean(anchorel);
 
   const handleRemoveClick = (event) => {
     if (onRemove) {
@@ -147,17 +158,15 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
           color="success"
           startIcon={<ShoppingCartIcon />}
           sx={{ borderRadius: 3, textTransform: 'none' }}
-          onClick={(event) => {
-            handleAddToCart(event);
-          }}
+          onClick={handleCartAction}
         >
-          Add to Cart
+          {isInCart ? 'Remove From Cart' : 'Add To Cart'}
         </Button>
 
         <Popover
           open={opening}
-          anchorEl={message}
-          onClose={() => setMessage(null)}
+          anchorEl={anchorel}
+          onClose={() => setAnchorel(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
           PaperProps={{ sx: { boxShadow: 1, borderRadius: 1, mt: 1 } }}
@@ -171,7 +180,7 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
               whiteSpace: 'nowrap',
             }}
           >
-            Item added to cart
+            {message}
           </Alert>
         </Popover>
       </TableCell>

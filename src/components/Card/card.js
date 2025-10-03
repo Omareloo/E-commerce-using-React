@@ -1,33 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import './card.css';
 import { Alert, Popover } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-export default function Card({ product, onAddToCart }) {
-  const [message, setMessage] = useState(null);
+export default function Card({
+  product,
+  onAddToCart,
+  onRemoveFromCart,
+  onAddToFavourite,
+  onRemoveFromFavourite,
+  isFav,
+}) {
+  const cartItems = useSelector((state) => state.cart.items);
 
-  const handleAddToCart = (event) => {
-    if (onAddToCart) {
-      onAddToCart();
+  const isInCart = cartItems.some((item) => item.productId._id === product._id);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [message, setMessage] = useState('');
+  const [fav, setFav] = useState(isFav);
+
+  useEffect(() => {
+    setFav(isFav);
+  }, [isFav]);
+
+  const handleCartAction = (event) => {
+    if (isInCart) {
+      if (onRemoveFromCart) onRemoveFromCart(product._id);
+      setMessage('Item removed from cart');
+    } else {
+      if (onAddToCart) onAddToCart(product._id);
+      setMessage('Item added to cart');
     }
-    setMessage(event.currentTarget);
+
+    setAnchorEl(event.currentTarget);
     setTimeout(() => {
-      setMessage(null);
+      setAnchorEl(null);
     }, 1000);
   };
 
-  const opening = Boolean(message);
+  const open = Boolean(anchorEl);
 
-  const [isFav, setIsFav] = useState(false);
-
-  const toggleFav = () => {
-    setIsFav(!isFav);
+  const handleFavAction = () => {
+    if (fav) {
+      onRemoveFromFavourite && onRemoveFromFavourite(product._id);
+      setFav(false);
+    } else {
+      onAddToFavourite && onAddToFavourite(product._id);
+      setFav(true);
+    }
   };
 
   return (
     <div className="card">
-      <div className="wishlist-icon" onClick={toggleFav}>
-        <FaHeart className={isFav ? 'heart active' : 'heart'} />
+      <div className="wishlist-icon" onClick={handleFavAction}>
+        <FaHeart className={fav ? 'heart active' : 'heart'} />
       </div>
       <img
         src={`http://localhost:3000/uploads/products/${product.image}`}
@@ -35,24 +63,24 @@ export default function Card({ product, onAddToCart }) {
         className="card-img"
       />
       <div className="card-body">
-        <h3 className="card-title">{product.title.split(' ').slice(0, 3).join(' ')}</h3>
+        <Link
+          to={`/Products/${product._id}`}
+          style={{ textDecoration: 'none', fontWeight: 'bold' }}
+        >
+          <h3 className="card-title">{product.title.split(' ').slice(0, 3).join(' ')}</h3>
+        </Link>
         <p className="card-category">{product.Category?.name}</p>
         <p className="card-price">{product.price} EGP</p>
       </div>
 
       <div className="card-footer">
-        <button
-          className="btnAdd"
-          onClick={(event) => {
-            handleAddToCart(event);
-          }}
-        >
-          Add To Cart
+        <button className="btnAdd" onClick={handleCartAction}>
+          {isInCart ? 'Remove From Cart' : 'Add To Cart'}
         </button>
         <Popover
-          open={opening}
-          anchorEl={message}
-          onClose={() => setMessage(null)}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
           PaperProps={{ sx: { boxShadow: 1, borderRadius: 1, mt: 1 } }}
@@ -66,7 +94,7 @@ export default function Card({ product, onAddToCart }) {
               whiteSpace: 'nowrap',
             }}
           >
-            Item added to cart
+            {message}
           </Alert>
         </Popover>
       </div>

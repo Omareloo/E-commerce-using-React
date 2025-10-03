@@ -10,8 +10,9 @@ import { getCategories } from '../../services/categoryservice';
 import { getProducts } from '../../services/productservice';
 import Card from '../../components/Card/card';
 import CustomPagination from '../../components/Pagenation/CustomPagenation';
-import { useDispatch } from 'react-redux';
-import { addCartItem } from '../../redux/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem, removeCartItem } from '../../redux/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../../redux/wishlistSlice';
 
 export default function Home() {
   const items = [slid1, slid2, slid3];
@@ -21,6 +22,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const settings = {
     infinite: true,
@@ -71,10 +73,6 @@ export default function Home() {
     }
   };
 
-  const handleAddToCart = (productId) => {
-    dispatch(addCartItem({ productId, quantity: 1 }));
-  };
-
   return (
     <>
       <div className="imageItems">
@@ -92,7 +90,15 @@ export default function Home() {
       <div className="products">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
-            <Card key={p._id} product={p} onAddToCart={() => handleAddToCart(p._id)} />
+            <Card
+              key={p._id}
+              product={p}
+              onAddToCart={(id) => dispatch(addCartItem({ productId: id, quantity: 1 }))}
+              onRemoveFromCart={(id) => dispatch(removeCartItem(id))}
+              onAddToFavourite={(id) => dispatch(addToWishlist(id))}
+              onRemoveFromFavourite={(id) => dispatch(removeFromWishlist(id))}
+              isFav={wishlistItems.some((item) => (item.productId._id || item.productId) === p._id)}
+            />
           ))
         ) : (
           <p>No products available</p>
