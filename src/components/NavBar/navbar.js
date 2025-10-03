@@ -4,13 +4,24 @@ import { FaHeart, FaShoppingCart, FaBoxOpen, FaSearch } from 'react-icons/fa';
 import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
 import { IconButton, Tooltip } from '@mui/material';
 import { userContext } from '../../Context/Context';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleLang } from '../../redux/slices/langSlice';
 import './navbar.css';
+
+import { MdLanguage } from 'react-icons/md';
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { lang, content } = useSelector((state) => state.lang);
+  const dispatch = useDispatch();
+
+  const changeLang = () => {
+    dispatch(toggleLang());
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -31,7 +42,7 @@ export default function Navbar() {
     <header className="navbar" role="banner">
       <Link to="/" className="brand">
         <div className="logo">🛒</div>
-        FreshChart
+        {content.FreshChart}
       </Link>
 
       <input className="hamburger" id="nav-toggle" type="checkbox" />
@@ -47,23 +58,23 @@ export default function Navbar() {
             <>
               <li>
                 <NavLink to="/orders">
-                  <FaBoxOpen /> MyOrders
+                  <FaBoxOpen /> {content.Orders}
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/wishlist">
-                  <FaHeart /> WishList
+                  <FaHeart /> {content.Wishlist}
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/Cart">
-                  <FaShoppingCart /> Cart
+                  <FaShoppingCart /> {content.Cart}
                 </NavLink>
               </li>
 
               {/* Search Button */}
               <li>
-                <Tooltip title="Search">
+                <Tooltip title={content.Search}>
                   <IconButton
                     onClick={() => setShowSearch(!showSearch)}
                     sx={{ color: '#09c' }}
@@ -73,8 +84,17 @@ export default function Navbar() {
                 </Tooltip>
               </li>
 
+              {/* Language Toggle */}
               <li>
-                <Tooltip title="Logout">
+                <Tooltip title="Change Language">
+                  <IconButton onClick={changeLang} sx={{ color: '#09c' }}>
+                    <MdLanguage />
+                  </IconButton>
+                </Tooltip>
+              </li>
+
+              <li>
+                <Tooltip title={content.Logout}>
                   <IconButton
                     onClick={handleLogout}
                     className="logout-btn"
@@ -93,12 +113,12 @@ export default function Navbar() {
             <>
               <li>
                 <NavLink to="/register" className="cta">
-                  <FiUserPlus /> Register
+                  <FiUserPlus /> {content.RegisterButton}
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/login" className="cta">
-                  <FiLogIn /> Login
+                  <FiLogIn /> {content.loginButton}
                 </NavLink>
               </li>
             </>
@@ -111,7 +131,7 @@ export default function Navbar() {
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder={content.Search}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
