@@ -116,6 +116,7 @@ const Cart = () => {
               {items.map((product) => (
                 <ProductCard
                   key={product.productId._id}
+                  _id={product.productId._id}
                   title={product.productId.title}
                   image={product.productId.image}
                   price={product.productId.price}

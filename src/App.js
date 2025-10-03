@@ -21,7 +21,7 @@ function App() {
       element: <HomeLayout />,
       children: [
         { index: true, element: <HomePage /> },
-        { path: 'ProductDetails', element: <ProductDetails /> },
+        { path: 'Products/:id', element: <ProductDetails /> },
         { path: 'WishList', element: <WishList /> },
         { path: 'Cart', element: <Cart /> },
         { path: 'MyOrders', element: <MyOrders /> },

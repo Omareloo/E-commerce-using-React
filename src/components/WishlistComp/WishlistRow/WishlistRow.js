@@ -12,6 +12,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const WishlistRow = ({ item, onRemove, handleClick }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -107,7 +108,14 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
 
       {/* Product Title */}
       <TableCell align="center">
-        <Typography fontWeight="bold">{item.productId.title}</Typography>
+        <Typography fontWeight="bold">
+          <Link
+            to={`/Products/${item.productId._id}`}
+            style={{ textDecoration: 'none', color: '#1976d2' }}
+          >
+            {item.productId.title}
+          </Link>
+        </Typography>
       </TableCell>
       {/* Price */}
       <TableCell align="center">

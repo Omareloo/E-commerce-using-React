@@ -3,8 +3,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Counter from '../Counter/Counter';
 import MyButton from '../MyButton/MyButton';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({
+  _id,
   title,
   image,
   price,
@@ -67,7 +69,12 @@ const ProductCard = ({
                 fontSize: { xs: '0.875rem', sm: '1rem' },
               }}
             >
-              {title}
+              <Link
+                to={`/Products/${_id}`}
+                style={{ textDecoration: 'none', color: '#1976d2', fontWeight: 'bold' }}
+              >
+                {title}
+              </Link>
             </Typography>
 
             {/* Price and Counter Row */}
