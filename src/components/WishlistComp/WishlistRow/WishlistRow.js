@@ -12,9 +12,23 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const WishlistRow = ({ item, onRemove, handleClick }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  const handleAddToCart = (event) => {
+    if (handleClick) {
+      handleClick();
+    }
+    setMessage(event.currentTarget);
+    setTimeout(() => {
+      setMessage(null);
+    }, 1000);
+  };
+
+  const opening = Boolean(message);
 
   const handleRemoveClick = (event) => {
     if (onRemove) {
@@ -94,12 +108,12 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
         >
           <Box
             component="img"
-            src={item.productId.image}
+            src={`http://localhost:3000/uploads/products/${item.productId.image}`}
             alt={item.productId.title}
             sx={{
-              width: '90%',
-              height: '90%',
-              objectFit: 'contain',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
             }}
           />
         </Box>
@@ -107,7 +121,14 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
 
       {/* Product Title */}
       <TableCell align="center">
-        <Typography fontWeight="bold">{item.productId.title}</Typography>
+        <Typography fontWeight="bold">
+          <Link
+            to={`/Products/${item.productId._id}`}
+            style={{ textDecoration: 'none', color: '#1976d2' }}
+          >
+            {item.productId.title}
+          </Link>
+        </Typography>
       </TableCell>
       {/* Price */}
       <TableCell align="center">
@@ -126,10 +147,33 @@ const WishlistRow = ({ item, onRemove, handleClick }) => {
           color="success"
           startIcon={<ShoppingCartIcon />}
           sx={{ borderRadius: 3, textTransform: 'none' }}
-          onClick={handleClick}
+          onClick={(event) => {
+            handleAddToCart(event);
+          }}
         >
           Add to Cart
         </Button>
+
+        <Popover
+          open={opening}
+          anchorEl={message}
+          onClose={() => setMessage(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+          PaperProps={{ sx: { boxShadow: 1, borderRadius: 1, mt: 1 } }}
+        >
+          <Alert
+            severity="info"
+            sx={{
+              backgroundColor: '#e0e0e0ff',
+              padding: '2px 8px',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Item added to cart
+          </Alert>
+        </Popover>
       </TableCell>
     </TableRow>
   );
