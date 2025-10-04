@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaBoxOpen, FaSearch } from 'react-icons/fa';
 import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
@@ -11,6 +11,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const navbarRef = useRef(null); 
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -21,14 +22,28 @@ export default function Navbar() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?query=${searchQuery}`);
+       navigate(`/?keyword=${encodeURIComponent(searchQuery.trim())}`);
       setShowSearch(false);
       setSearchQuery("");
     }
   };
 
+   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showSearch && navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setShowSearch(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSearch]);
+
+
   return (
-    <header className="navbar" role="banner">
+    <header className="navbar" role="banner" ref={navbarRef}>
       <Link to="/" className="brand">
         <div className="logo">🛒</div>
         FreshChart
@@ -114,6 +129,7 @@ export default function Navbar() {
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            autoFocus
           />
         </form>
       )}
