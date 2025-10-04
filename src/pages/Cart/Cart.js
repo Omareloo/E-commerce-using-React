@@ -7,7 +7,7 @@ import {
   removeCartItem,
   clearCartItems,
   updateItemQuantity,
-} from '../../redux/cartSlice';
+} from '../../redux/slices/cartSlice';
 
 import ProductCard from '../../components/CartComponents/ProductCard/ProductCard';
 import Sidebar from '../../components/CartComponents/Sidebar/Sidebar';
@@ -15,8 +15,8 @@ import Title from '../../components/CartComponents/Title/Title';
 import MyButton from '../../components/CartComponents/MyButton/MyButton';
 import MainButton from '../../components/CartComponents/MainButton/MainButton';
 import EmptyCart from '../../components/CartComponents/EmptyCart/EmptyCart';
-import { addToWishlist } from '../../redux/wishlistSlice';
-import { createOrder } from '../../redux/createOrderSlice';
+import { addToWishlist } from '../../redux/slices/wishlistSlice';
+import { createOrder } from '../../redux/slices/createOrderSlice';
 
 const Cart = () => {
   const dispatch = useDispatch();
