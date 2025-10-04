@@ -34,7 +34,7 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>
-                      <img src={`http://localhost:3000/uploads/products/${product.image}`} alt={product.title} className="card-img" style={{ width: "50px", height: "50px" }} />
+                      <img src={`http://localhost:3000/uploads/products/${product.image}`} alt={product.title} className="card-img" style={{ width: "100px", height: "80px" }} />
               </TableCell>
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.Category?.name || "No Category"}</TableCell>
