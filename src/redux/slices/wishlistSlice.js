@@ -6,7 +6,7 @@ import {
   clearWishlistItems,
 } from '../../services/wishlistService';
 
-// thunks
+
 export const fetchWishlist = createAsyncThunk(
   'wishlist/fetchWishlist',
   async (_, { rejectWithValue }) => {
@@ -21,6 +21,7 @@ export const fetchWishlist = createAsyncThunk(
     }
   }
 );
+
 
 export const addToWishlist = createAsyncThunk(
   'wishlist/addToWishlist',

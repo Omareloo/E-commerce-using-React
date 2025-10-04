@@ -29,6 +29,12 @@ export default function Login() {
       setSpinner(false);
 
       const token = res?.data?.token;
+      const role = res?.data?.role;
+      console.log("Role:", role);
+      console.log("Token:", token);
+      if (role) {
+        localStorage.setItem("role", role);
+      }
 
       if (!token) {
         // مفيش توكن → نرجعه على صفحة اللوجن

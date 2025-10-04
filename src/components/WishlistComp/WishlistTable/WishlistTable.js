@@ -13,7 +13,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import WishlistRow from '../WishlistRow/WishlistRow';
 
-const WishlistTable = ({ items, onRemove, onBrowse, onAddToCart }) => {
+const WishlistTable = ({ items, onRemove, onBrowse, onAddToCart, onRemoveFromCart }) => {
   return (
     <>
       <TableContainer component={Paper} sx={{ mt: 3, boxShadow: 3 }}>
@@ -36,7 +36,8 @@ const WishlistTable = ({ items, onRemove, onBrowse, onAddToCart }) => {
                 key={item._id}
                 item={item}
                 onRemove={onRemove}
-                handleClick={() => onAddToCart(item.productId._id)}
+                onAddToCart={() => onAddToCart(item.productId._id)}
+                onRemoveFromCart={() => onRemoveFromCart(item.productId._id)}
               />
             ))}
           </TableBody>

@@ -3,11 +3,14 @@ import { IconButton, Typography, Box, Popover, Alert } from '@mui/material';
 
 const MyButton = ({ icon: Icon, label, handleAction, message }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const handleClick = (event) => {
     if (handleAction) {
-      handleAction();
+      const resultMessage = handleAction();
+      setAlertMessage(resultMessage || message || `${label} completed`);
     }
+
     setAnchorEl(event.currentTarget);
     setTimeout(() => {
       setAnchorEl(null);
@@ -63,7 +66,7 @@ const MyButton = ({ icon: Icon, label, handleAction, message }) => {
             whiteSpace: 'nowrap',
           }}
         >
-          {message || `${label} completed`}
+          {alertMessage}
         </Alert>
       </Popover>
     </Box>
