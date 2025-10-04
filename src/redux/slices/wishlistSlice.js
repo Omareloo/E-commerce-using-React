@@ -4,7 +4,7 @@ import {
   addWishlistItem,
   removeWishlistItem,
   clearWishlistItems,
-} from '../services/wishlistService';
+} from '../../services/wishlistService';
 
 //  Fetch wishlist
 export const fetchWishlist = createAsyncThunk(
