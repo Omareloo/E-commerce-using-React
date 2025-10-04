@@ -16,6 +16,8 @@ import Users from './pages/DashBoard/Users/user';
 
 import { CreateUserProvider } from './Context/Context';
 import Cart from './pages/Cart/Cart';
+import NotFound from './pages/NotFound/notfound';
+ 
 
 function App() {
   let router = createBrowserRouter([
@@ -30,6 +32,7 @@ function App() {
         { path: 'MyOrders', element: <MyOrders /> },
         { path: 'Login', element: <LoginPage /> },
         { path: 'register', element: <Register /> },
+        { path: '*', element: <NotFound /> },
       ],
     },
     {
