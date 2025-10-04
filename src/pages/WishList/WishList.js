@@ -17,6 +17,7 @@ const WishList = () => {
 
   useEffect(() => {
     dispatch(fetchWishlist());
+    console.log('Wishlist items:');
   }, [dispatch]);
 
   const handleRemove = (id) => {

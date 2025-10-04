@@ -11,8 +11,8 @@ import { getProducts } from '../../services/productservice';
 import Card from '../../components/Card/card';
 import CustomPagination from '../../components/Pagenation/CustomPagenation';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCartItem, removeCartItem } from '../../redux/cartSlice';
-import { addToWishlist, removeFromWishlist } from '../../redux/wishlistSlice';
+import { addCartItem, removeCartItem } from '../../redux/slices/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../../redux/slices/wishlistSlice';
 
 export default function Home() {
   const items = [slid1, slid2, slid3];

@@ -1,13 +1,13 @@
-import axiosInstance from '../axiousinstance/axiousinstance';
+import axiosInstance from "../axiousinstance/axiousinstance";
 
 //  Get wishlist
 export const getWishlist = async () => {
   try {
-    const response = await axiosInstance.get('/wishlist');
-    return response.data?.wishlist?.items || [];
+    const response = await axiosInstance.get("/wishlist");
+    return response;
   } catch (error) {
-    console.error('Error fetching wishlist:', error);
-    return [];
+    console.error("Error fetching wishlist:", error);
+    throw error;
   }
 };
 
@@ -17,7 +17,7 @@ export const addWishlistItem = async (productId) => {
     const response = await axiosInstance.post(`/wishlist/${productId}`);
     return response.data?.wishlist?.items || [];
   } catch (error) {
-    console.error('Error adding to wishlist:', error);
+    console.error("Error adding to wishlist:", error);
     throw error;
   }
 };
@@ -28,7 +28,7 @@ export const removeWishlistItem = async (productId) => {
     const response = await axiosInstance.delete(`/wishlist/${productId}`);
     return response.data?.wishlist?.items || [];
   } catch (error) {
-    console.error('Error removing from wishlist:', error);
+    console.error("Error removing from wishlist:", error);
     throw error;
   }
 };
@@ -36,10 +36,10 @@ export const removeWishlistItem = async (productId) => {
 //  Clear wishlist
 export const clearWishlistItems = async () => {
   try {
-    const response = await axiosInstance.delete('/wishlist');
+    const response = await axiosInstance.delete("/wishlist");
     return response.data?.wishlist?.items || [];
   } catch (error) {
-    console.error('Error clearing wishlist:', error);
+    console.error("Error clearing wishlist:", error);
     throw error;
   }
 };

@@ -10,6 +10,7 @@ import BadgeCounter from '../BadgeCounter/BadgeCounter';
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,7 +48,7 @@ export default function Navbar() {
 
       <nav role="navigation">
         <ul className="menu">
-          {Usertoken ? (
+          {Usertoken && token ? (
             <>
               <li>
                 <NavLink to="/orders">
