@@ -2,14 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './slices/cartSlice';
 import wishlistReducer from './slices/wishlistSlice';
 import createOrderReducer from './slices/createOrderSlice';
-
-
-
-import wishlistReducer from './slices/wishlistSlice';
 import langReducer from './slices/langSlice';
-import cartReducer from './slices/cartSlice';
-import createOrderReducer from './slices/createOrderSlice';
-const store = configureStore({
+  const store = configureStore({
   reducer: {
     cart: cartReducer,
     wishlist: wishlistReducer,
