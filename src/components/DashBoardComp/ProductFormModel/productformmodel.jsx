@@ -40,7 +40,7 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
         ...product,
         Category: product.Category?._id || "",
         SubCategory: product.SubCategory?._id || "",
-        image: null,
+        image: product.image || null,
       });
     } else {
       setFormData({
@@ -52,7 +52,8 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
         SubCategory: "",
       });
     }
-  }, [product, open]); 
+  }, [product, open]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +69,7 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData); 
+    onSave(formData);
   };
 
   return (
@@ -99,6 +100,15 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
               inputProps={{ accept: "image/*" }}
               onChange={handleFileChange}
             />
+
+            {formData.image && !(formData.image instanceof File) && (
+              <img
+                src={`http://localhost:3000/uploads/products/${formData.image}`}
+                alt="preview"
+                style={{ width: "100px", marginTop: "10px", borderRadius: "8px" }}
+              />
+            )}
+
             <TextField
               fullWidth
               label="Description"

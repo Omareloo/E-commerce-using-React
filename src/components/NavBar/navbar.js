@@ -16,7 +16,7 @@ export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { lang, content } = useSelector((state) => state.lang);
+  const {  content } = useSelector((state) => state.lang);
   const dispatch = useDispatch();
 
   const changeLang = () => {
