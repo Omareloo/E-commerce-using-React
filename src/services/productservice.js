@@ -1,11 +1,18 @@
 import axiosInstance from "../axiousinstance/axiousinstance";
 
-export const getProducts = async (page=1) => {
-  const res = await axiosInstance.get(`/products?page=${page}`);
-  return res.data;
-};
+// /src/services/productservice.js
+  export const getProducts = async (page = 1, keyword = "") => {
+  let url = `/products?page=${page}`;
+  
+   if (keyword) {
+    url += `&keyword=${encodeURIComponent(keyword)}`;
+  }
+  const res = await axiosInstance.get(url);
+  return res.data; 
+ };
 
-
+ 
+// Add new product
 export const addProduct = async (data) => {
   const formData = new FormData();
   formData.append("title", data.title);
