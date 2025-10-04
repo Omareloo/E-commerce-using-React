@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Typography, Button, Box } from "@mui/material";
+import { Container, Typography, Button, Box, Pagination } from "@mui/material";
 import {
   getProducts,
   addProduct,
@@ -13,15 +13,20 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProducts(page);
+  }, [page]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (pageNum = 1) => {
     try {
-      const fetched = await getProducts();
+      const fetched = await getProducts(pageNum);
       setProducts(fetched.results);
+      setPage(fetched.page);
+      setTotalPages(fetched.totalPages);
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
@@ -40,7 +45,7 @@ export default function Products() {
   const handleDelete = async (id) => {
     try {
       await deleteProduct(id);
-      setProducts(products.filter((p) => p._id !== id));
+      fetchProducts(page);
     } catch (error) {
       console.error("Failed to delete product:", error);
     }
@@ -57,12 +62,15 @@ export default function Products() {
       } else {
         await addProduct(productData);
       }
-
-      await fetchProducts(); 
-      setOpenDialog(false);  
+      await fetchProducts(page); 
+      setOpenDialog(false);
     } catch (error) {
       console.error("Failed to save product:", error);
     }
+  };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
   };
 
   return (
@@ -85,6 +93,15 @@ export default function Products() {
           products={products}
           onEdit={handleEdit}
           onDelete={handleDelete}
+        />
+      </Box>
+
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
         />
       </Box>
 
