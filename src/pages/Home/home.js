@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
-import Slider from "react-slick";
-import slid1 from "../../assets/images/slider-image-1.jpeg";
-import slid2 from "../../assets/images/slider-image-2.jpeg";
-import slid3 from "../../assets/images/slider-image-3.jpeg";
+import { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import slid1 from '../../assets/images/slider-image-1.jpeg';
+import slid2 from '../../assets/images/slider-image-2.jpeg';
+import slid3 from '../../assets/images/slider-image-3.jpeg';
 
-import "./home.css";
-import Bar from "../../components/Bar/Bar";
-import { getCategories } from "../../services/categoryservice";
-import { getProducts } from "../../services/productservice";
-import Card from "../../components/Card/card";
-import CustomPagination from "../../components/Pagenation/CustomPagenation";
-
+import './home.css';
+import Bar from '../../components/Bar/Bar';
+import { getCategories } from '../../services/categoryservice';
+import { getProducts } from '../../services/productservice';
+import Card from '../../components/Card/card';
+import CustomPagination from '../../components/Pagenation/CustomPagenation';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem, removeCartItem } from '../../redux/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../../redux/wishlistSlice';
 
 export default function Home() {
   const items = [slid1, slid2, slid3];
@@ -19,6 +21,8 @@ export default function Home() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const settings = {
     infinite: true,
@@ -48,7 +52,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await getProducts(page);
-      console.log("Products response:", res);
+      console.log('Products response:', res);
 
       if (res && res.results) {
         setProducts(res.results);
@@ -61,7 +65,7 @@ export default function Home() {
 
   // filter by category
   const handleSelectCategory = (catId) => {
-    if (catId === "all") {
+    if (catId === 'all') {
       setFilteredProducts(products);
     } else {
       const filtered = products.filter((p) => p.Category?._id === catId);
@@ -85,18 +89,24 @@ export default function Home() {
 
       <div className="products">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((p) => <Card key={p._id} product={p} />)
+          filteredProducts.map((p) => (
+            <Card
+              key={p._id}
+              product={p}
+              onAddToCart={(id) => dispatch(addCartItem({ productId: id, quantity: 1 }))}
+              onRemoveFromCart={(id) => dispatch(removeCartItem(id))}
+              onAddToFavourite={(id) => dispatch(addToWishlist(id))}
+              onRemoveFromFavourite={(id) => dispatch(removeFromWishlist(id))}
+              isFav={wishlistItems.some((item) => (item.productId._id || item.productId) === p._id)}
+            />
+          ))
         ) : (
           <p>No products available</p>
         )}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
-        <CustomPagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+        <CustomPagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
       </div>
     </>
   );
