@@ -5,13 +5,18 @@ import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
 import { IconButton, Tooltip } from '@mui/material';
 import { userContext } from '../../Context/Context';
 import './navbar.css';
+import { useSelector } from 'react-redux';
+import BadgeCounter from '../BadgeCounter/BadgeCounter';
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navbarRef = useRef(null); 
+  const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -24,7 +29,7 @@ export default function Navbar() {
     if (searchQuery.trim()) {
        navigate(`/?keyword=${encodeURIComponent(searchQuery.trim())}`);
       setShowSearch(false);
-      setSearchQuery("");
+      setSearchQuery('');
     }
   };
 
@@ -58,7 +63,7 @@ export default function Navbar() {
 
       <nav role="navigation">
         <ul className="menu">
-          {Usertoken ? (
+          {Usertoken && token ? (
             <>
               <li>
                 <NavLink to="/orders">
@@ -67,22 +72,23 @@ export default function Navbar() {
               </li>
               <li>
                 <NavLink to="/wishlist">
-                  <FaHeart /> WishList
+                  <BadgeCounter
+                    count={wishlistItems.length}
+                    icon={<FaHeart />}
+                    tooltip="WishList"
+                  />
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/Cart">
-                  <FaShoppingCart /> Cart
+                  <BadgeCounter count={cartItems.length} icon={<FaShoppingCart />} tooltip="Cart" />{' '}
                 </NavLink>
               </li>
 
               {/* Search Button */}
               <li>
                 <Tooltip title="Search">
-                  <IconButton
-                    onClick={() => setShowSearch(!showSearch)}
-                    sx={{ color: '#09c' }}
-                  >
+                  <IconButton onClick={() => setShowSearch(!showSearch)} sx={{ color: '#09c' }}>
                     <FaSearch />
                   </IconButton>
                 </Tooltip>

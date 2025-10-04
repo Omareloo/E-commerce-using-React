@@ -20,7 +20,7 @@ const menuItems = [
   { text: "Products", path: "/dashboard/products", icon: <InventoryIcon /> },
   { text: "Categories", path: "/dashboard/categories", icon: <CategoryIcon /> },
   { text: "Orders", path: "/dashboard/orders", icon: <ShoppingCartIcon /> },
-  { text: "Users", path: "/dashboard/users", icon: <PeopleIcon /> }, // ✅ Users
+  { text: "Users", path: "/dashboard/users", icon: <PeopleIcon /> }, 
 ];
 
 function SideBarComponent() {

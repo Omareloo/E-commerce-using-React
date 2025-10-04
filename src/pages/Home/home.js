@@ -59,7 +59,8 @@ export default function Home() {
     fetchCats();
   }, []);
 
-   useEffect(() => {
+  // 2. جلب المنتجات مع البحث والـ Pagination
+  useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       

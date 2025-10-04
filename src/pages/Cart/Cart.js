@@ -1,4 +1,3 @@
-// src/pages/Cart/Cart.jsx
 import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,9 +48,13 @@ const Cart = () => {
     dispatch(clearCartItems());
   };
 
-  const handleMakeOrder = async () => {
+  const handleMakeOrder = async (shippingAddress) => {
+    if (!shippingAddress.trim() || shippingAddress.length < 5) {
+      return false;
+    }
+
     const orderData = {
-      shippingAddress: '1213 Main Street, Cairo',
+      shippingAddress,
       items: items.map((p) => ({
         productId: p.productId._id,
         quantity: p.quantity,
@@ -59,8 +62,15 @@ const Cart = () => {
       })),
       totalPrice,
     };
-    await dispatch(createOrder(orderData)).unwrap();
-    dispatch(clearCartItems());
+
+    try {
+      await dispatch(createOrder(orderData)).unwrap();
+      dispatch(clearCartItems());
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   };
 
   const handleAddToFavourite = (productId) => {
@@ -116,6 +126,7 @@ const Cart = () => {
               {items.map((product) => (
                 <ProductCard
                   key={product.productId._id}
+                  _id={product.productId._id}
                   title={product.productId.title}
                   image={product.productId.image}
                   price={product.productId.price}
