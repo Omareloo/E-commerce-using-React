@@ -4,24 +4,18 @@ import { FaHeart, FaShoppingCart, FaBoxOpen, FaSearch } from 'react-icons/fa';
 import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
 import { IconButton, Tooltip } from '@mui/material';
 import { userContext } from '../../Context/Context';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleLang } from '../../redux/slices/langSlice';
 import './navbar.css';
-
-import { MdLanguage } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import BadgeCounter from '../BadgeCounter/BadgeCounter';
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const {  content } = useSelector((state) => state.lang);
-  const dispatch = useDispatch();
-
-  const changeLang = () => {
-    dispatch(toggleLang());
-  };
+  const [searchQuery, setSearchQuery] = useState('');
+  const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -34,7 +28,7 @@ export default function Navbar() {
     if (searchQuery.trim()) {
       navigate(`/search?query=${searchQuery}`);
       setShowSearch(false);
-      setSearchQuery("");
+      setSearchQuery('');
     }
   };
 
@@ -42,7 +36,7 @@ export default function Navbar() {
     <header className="navbar" role="banner">
       <Link to="/" className="brand">
         <div className="logo">🛒</div>
-        {content.FreshChart}
+        FreshChart
       </Link>
 
       <input className="hamburger" id="nav-toggle" type="checkbox" />
@@ -54,47 +48,39 @@ export default function Navbar() {
 
       <nav role="navigation">
         <ul className="menu">
-          {Usertoken ? (
+          {Usertoken && token ? (
             <>
               <li>
                 <NavLink to="/orders">
-                  <FaBoxOpen /> {content.Orders}
+                  <FaBoxOpen /> MyOrders
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/wishlist">
-                  <FaHeart /> {content.Wishlist}
+                  <BadgeCounter
+                    count={wishlistItems.length}
+                    icon={<FaHeart />}
+                    tooltip="WishList"
+                  />
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/Cart">
-                  <FaShoppingCart /> {content.Cart}
+                  <BadgeCounter count={cartItems.length} icon={<FaShoppingCart />} tooltip="Cart" />{' '}
                 </NavLink>
               </li>
 
               {/* Search Button */}
               <li>
-                <Tooltip title={content.Search}>
-                  <IconButton
-                    onClick={() => setShowSearch(!showSearch)}
-                    sx={{ color: '#09c' }}
-                  >
+                <Tooltip title="Search">
+                  <IconButton onClick={() => setShowSearch(!showSearch)} sx={{ color: '#09c' }}>
                     <FaSearch />
                   </IconButton>
                 </Tooltip>
               </li>
 
-              {/* Language Toggle */}
               <li>
-                <Tooltip title="Change Language">
-                  <IconButton onClick={changeLang} sx={{ color: '#09c' }}>
-                    <MdLanguage />
-                  </IconButton>
-                </Tooltip>
-              </li>
-
-              <li>
-                <Tooltip title={content.Logout}>
+                <Tooltip title="Logout">
                   <IconButton
                     onClick={handleLogout}
                     className="logout-btn"
@@ -113,12 +99,12 @@ export default function Navbar() {
             <>
               <li>
                 <NavLink to="/register" className="cta">
-                  <FiUserPlus /> {content.RegisterButton}
+                  <FiUserPlus /> Register
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/login" className="cta">
-                  <FiLogIn /> {content.loginButton}
+                  <FiLogIn /> Login
                 </NavLink>
               </li>
             </>
@@ -131,7 +117,7 @@ export default function Navbar() {
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
-            placeholder={content.Search}
+            placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
