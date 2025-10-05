@@ -1,11 +1,14 @@
 import { Box, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Title = ({ title, itemCount, variant = 'h4' }) => {
+
+  const { content } = useSelector((state) => state.lang);
+
   return (
     <Box>
       <Typography
         variant={variant}
-        // gutterBottom
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -19,7 +22,7 @@ const Title = ({ title, itemCount, variant = 'h4' }) => {
       >
         {itemCount !== undefined ? (
           <>
-            {title} <span>({itemCount} items)</span>
+            {title} <span>({itemCount} {itemCount === 1 ? content.item : content.items})</span>
           </>
         ) : (
           title

@@ -3,12 +3,15 @@ import { Container, Typography, Button, Box } from "@mui/material";
 import CategoryTable from "../../../components/DashBoardComp/CategoriesTable.jsx/categoriestable";
 import CategoryDialog from "../../../components/DashBoardComp/CategoriesFormModel/categoriesformmodel";
 import { getCategories, addCategory, updateCategory, deleteCategory } from "../../../services/categoryservice";
+import { useSelector } from "react-redux";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(false); 
+    const { content } = useSelector((state) => state.lang);
+
 
   useEffect(() => {
     async function fetchCategories() {
@@ -102,7 +105,7 @@ export default function Categories() {
   return (
     <Container sx={{ py: 6 }}>
       <Typography variant="h4" sx={{ mb: 4 }}>
-        Categories Dashboard
+        {content.Categories}
       </Typography>
       <Button
         variant="contained"
@@ -111,7 +114,7 @@ export default function Categories() {
         disabled={loading}
         sx={{ mb: 6 }}
       >
-        {loading ? "Loading..." : "Add Category"}
+        {loading ? content.Loading : content.AddCategory}
       </Button>
       <Box sx={{ mt: 6 }}>
         <CategoryTable

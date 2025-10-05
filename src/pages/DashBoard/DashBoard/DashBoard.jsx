@@ -11,6 +11,8 @@ import { getCategories } from "../../../services/categoryservice";
 import { getAllAdminOrders } from "../../../services/ordersService";
 import { getAllUsers } from "../../../services/usersService";
 
+import { useSelector } from "react-redux";
+
 export default function DashBoard() {
   const [counts, setCounts] = useState({
     products: 0,
@@ -18,6 +20,7 @@ export default function DashBoard() {
     orders: 0,
     users: 0,
   });
+  const {content} = useSelector((state) => state.lang);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,25 +49,25 @@ export default function DashBoard() {
   return (
     <Box sx={{ display: "flex", gap: 3, padding: 3, flexWrap: "wrap" }}>
       <CardWidget
-        title="Total Products"
+        title={content.Products}
         value={counts.products}
         icon={<InventoryIcon fontSize="inherit" />}
         color="#1976d2"
       />
       <CardWidget
-        title="Categories"
+        title={content.Categories}
         value={counts.categories}
         icon={<CategoryIcon fontSize="inherit" />}
         color="#9c27b0"
       />
       <CardWidget
-        title="Orders"
+        title={content.Orders}
         value={counts.orders}
         icon={<ShoppingCartIcon fontSize="inherit" />}
         color="#2e7d32"
       />
       <CardWidget
-        title="Users"
+        title={content.Users}
         value={counts.users}
         icon={<PeopleIcon fontSize="inherit" />}
         color="#ff9800"

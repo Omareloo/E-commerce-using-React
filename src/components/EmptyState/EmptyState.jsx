@@ -3,13 +3,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import emptyImage from "../../assets/images/gg.PNG"; 
+import { useSelector } from "react-redux";
 
 export default function EmptyState({ keyword }) {
   const navigate = useNavigate();
   const isSearchEmpty = !!keyword;
+  const {content} = useSelector((state) => state.lang);
 
   return (
-    // هذا الـ Div يمتد على كامل عرض الـ products div ويقوم بتوسيط المحتوى داخله
     <div
       style={{
         width: "100%", 
@@ -18,7 +19,6 @@ export default function EmptyState({ keyword }) {
         padding: "50px 0", 
       }}
     >
-        {/* هذا الـ Div هو حاوية المحتوى الفعلي وله أقصى عرض (maxWidth) */}
         <div
             style={{
                 textAlign: "center",
@@ -26,7 +26,6 @@ export default function EmptyState({ keyword }) {
                 width: '100%',
             }}
         >
-            {/* الصورة */}
             <img
                 src={emptyImage}
                 alt="Not Found"
@@ -47,8 +46,9 @@ export default function EmptyState({ keyword }) {
                 }}
             >
                 {isSearchEmpty
-                ? "We couldn't find what you were looking for"
-                : "No Products Available"}
+                ? content.notfound
+                : content.NoProductsAvailable
+                }
             </h2>
 
             {/* الوصف */}
@@ -62,15 +62,13 @@ export default function EmptyState({ keyword }) {
             >
                 {isSearchEmpty ? (
                     <>
-                        Keep calm and search again. <br />
-                        We have <strong>SO many</strong> other products that you will like!
+                        {content.Keepcalmandsearchagain} <br />
+                        {content.otherproducts}
                     </>
                 ) : (
-                    "It looks like there are no products in our store right now. Please check back later."
-                )}
+                    content.nodata)}
             </p>
 
-            {/* زرار الاستمرار */}
             <button
                 onClick={() => navigate("/")}
                 style={{
@@ -85,8 +83,7 @@ export default function EmptyState({ keyword }) {
                     transition: "0.3s ease",
                 }}
             >
-                CONTINUE SHOPPING
-            </button>
+                {content.continueShopping}            </button>
         </div>
     </div>
   );

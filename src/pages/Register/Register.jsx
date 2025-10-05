@@ -5,13 +5,14 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
 export default function Register() {
   const [ApiError, setApiErorr] = useState("");
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate();
+  const {content} = useSelector((state) => state.lang);
 
-  // ✅ Validation Schema
   const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[A-Za-z ]{3,30}$/, "Name must be 3-30 letters only")
@@ -31,7 +32,6 @@ export default function Register() {
       .required("RePassword is required"),
   });
 
-  // ✅ API Handler
   const handleRegister = (Userdata) => {
     setSpinner(true);
 
@@ -58,7 +58,6 @@ export default function Register() {
       });
   };
 
-  // ✅ Formik Setup
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -71,7 +70,6 @@ export default function Register() {
     validationSchema,
   });
 
-  // ✅ Function to get Input Classes
   const getInputClass = (field) => {
     let classes = style.input;
     if (formik.touched[field] && formik.errors[field])
@@ -81,22 +79,19 @@ export default function Register() {
     return classes;
   };
 
-  // ✅ Small Component for Field Error
   const FieldError = ({ name }) =>
     formik.touched[name] && formik.errors[name] ? (
       <div className={style.fieldError}>{formik.errors[name]}</div>
     ) : null;
 
-  // ✅ UI
   return (
     <div className={style.page}>
       <form className={style.card} onSubmit={formik.handleSubmit} noValidate>
         <div className={style.title}>
-          <h3>Register Now</h3>
+          <h3>{content.RegisterNow}</h3>
           {ApiError && <div className={style.apiError}>{ApiError}</div>}
         </div>
 
-        {/* Name */}
         <div className={style.inputGroup}>
           <input
             id="name"
@@ -109,12 +104,11 @@ export default function Register() {
             placeholder=" "
           />
           <label htmlFor="name" className={style.label}>
-            Name
+            {content.Name}
           </label>
           <FieldError name="name" />
         </div>
 
-        {/* Email */}
         <div className={style.inputGroup}>
           <input
             id="email"
@@ -127,12 +121,11 @@ export default function Register() {
             placeholder=" "
           />
           <label htmlFor="email" className={style.label}>
-            Email
+            {content.email}
           </label>
           <FieldError name="email" />
         </div>
 
-        {/* Password */}
         <div className={style.inputGroup}>
           <input
             id="password"
@@ -145,12 +138,11 @@ export default function Register() {
             placeholder=" "
           />
           <label htmlFor="password" className={style.label}>
-            Password
+            {content.password}
           </label>
           <FieldError name="password" />
         </div>
 
-        {/* RePassword */}
         <div className={style.inputGroup}>
           <input
             id="rePassword"
@@ -163,12 +155,11 @@ export default function Register() {
             placeholder=" "
           />
           <label htmlFor="rePassword" className={style.label}>
-            RePassword
+            {content.confirmPassword}
           </label>
           <FieldError name="rePassword" />
         </div>
 
-        {/* Phone */}
         <div className={style.inputGroup}>
           <input
             id="phone"
@@ -181,20 +172,19 @@ export default function Register() {
             placeholder=" "
           />
           <label htmlFor="phone" className={style.label}>
-            Phone
+            {content.phone}
           </label>
           <FieldError name="phone" />
         </div>
 
-        {/* Submit */}
         <button type="submit" className={style.btnSubmit} disabled={spinner}>
-          {spinner ? <span className={style.spinner} /> : "Submit"}
+          {spinner ? <span className={style.spinner} /> : content.SubmitButton}
         </button>
 
         <p className={style.accountText}>
-          Already have an account?{" "}
+          {content.AlreadyHaveAccount}{" "}
           <Link to="/login" className={style.loginLink}>
-            Login
+            {content.loginButton}
           </Link>
         </p>
       </form>

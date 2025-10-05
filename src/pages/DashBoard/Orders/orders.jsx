@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import OrderTable from "../../../components/DashBoardComp/Orders/OrderTable";
 import { getAllAdminOrders, updateOrderStatus } from "../../../services/ordersService";
+import { useSelector } from "react-redux";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const {content} = useSelector((state) => state.lang);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -29,10 +31,10 @@ export default function Orders() {
 
   const handleAccept = async (id) => {
     try {
-      await updateOrderStatus(id, "shipped");  
+      await updateOrderStatus(id, content.shipped);  
       setOrders(
         orders.map((o) =>
-          o._id === id ? { ...o, status: "shipped" } : o
+          o._id === id ? { ...o, status: content.shipped } : o
         )
       );
     } catch (err) {
@@ -42,10 +44,10 @@ export default function Orders() {
 
   const handleReject = async (id) => {
     try {
-      await updateOrderStatus(id, "canceled");  
+      await updateOrderStatus(id, content.canceled);  
       setOrders(
         orders.map((o) =>
-          o._id === id ? { ...o, status: "canceled" } : o
+          o._id === id ? { ...o, status: content.canceled } : o
         )
       );
     } catch (err) {

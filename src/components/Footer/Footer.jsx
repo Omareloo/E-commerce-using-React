@@ -1,29 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Footer.css"; // استدعاء ملف CSS العادي
+import "./Footer.css";
+import { useSelector } from "react-redux";
 
 export default function Footer() {
+
+    const { content } = useSelector((state) => state.lang);
+
   return (
     <footer className="footer">
       <div className="container">
         <p className="brand">
           <Link to="/" className="link">
-            FreshCart
+            {content.FreshChart}
           </Link>
         </p>
         <ul className="navLinks">
           <li>
-            <Link to="/about" className="link">About</Link>
+            <Link to="/about" className="link">{content.about}</Link>
           </li>
           <li>
-            <Link to="/contact" className="link">Contact</Link>
+            <Link to="/contact" className="link">{content.contact}</Link>
           </li>
           <li>
-            <Link to="/privacy" className="link">Privacy</Link>
+            <Link to="/privacy" className="link">{content.privacy}</Link>
           </li>
         </ul>
         <p className="copy">
-          © {new Date().getFullYear()} FreshCart. All rights reserved.
+         {content.textFooter}
         </p>
       </div>
     </footer>

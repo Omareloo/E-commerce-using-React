@@ -14,6 +14,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { getCategories, getSubCategories } from "../../../services/categoryservice";
+import { useSelector } from "react-redux";
 
 const ProductDialog = ({ open, onClose, onSave, product }) => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,8 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
   });
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+      const {content} = useSelector((state) => state.lang);
+
 
   useEffect(() => {
     (async () => {
@@ -74,20 +77,20 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{product ? "Edit Product" : "Add Product"}</DialogTitle>
+      <DialogTitle>{product ? content.EditProduct : content.AddProduct}</DialogTitle>
       <DialogContent>
         <Box component="form" sx={{ py: 3 }}>
           <Stack spacing={3}>
             <TextField
               fullWidth
-              label="Title"
+              label={content.Title}
               name="title"
               value={formData.title}
               onChange={handleChange}
             />
             <TextField
               fullWidth
-              label="Price"
+              label={content.Price}
               name="price"
               type="number"
               value={formData.price}
@@ -111,7 +114,7 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
 
             <TextField
               fullWidth
-              label="Description"
+              label={content.Description}
               name="description"
               multiline
               rows={4}
@@ -119,7 +122,7 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
               onChange={handleChange}
             />
             <FormControl fullWidth>
-              <InputLabel>Category</InputLabel>
+              <InputLabel>{content.Category}</InputLabel>
               <Select
                 name="Category"
                 value={formData.Category}
@@ -133,7 +136,7 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel>SubCategory</InputLabel>
+              <InputLabel>{content.SubCategory}</InputLabel>
               <Select
                 name="SubCategory"
                 value={formData.SubCategory}
@@ -151,10 +154,10 @@ const ProductDialog = ({ open, onClose, onSave, product }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          {content.Cancel}
         </Button>
         <Button onClick={handleSubmit} variant="contained" color="primary">
-          Save
+          {content.Save}
         </Button>
       </DialogActions>
     </Dialog>

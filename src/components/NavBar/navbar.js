@@ -1,12 +1,17 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaShoppingCart, FaBoxOpen, FaSearch } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { FiLogIn, FiUserPlus, FiLogOut } from 'react-icons/fi';
 import { IconButton, Tooltip } from '@mui/material';
 import { userContext } from '../../Context/Context';
 import './navbar.css';
 import { useSelector } from 'react-redux';
 import BadgeCounter from '../BadgeCounter/BadgeCounter';
+import { toggleLang } from '../../redux/slices/langSlice';
+import { useDispatch } from 'react-redux';
+import { MdLanguage } from 'react-icons/md';
+
+
 
 export default function Navbar() {
   const { Usertoken, setToken } = useContext(userContext);
@@ -17,6 +22,13 @@ export default function Navbar() {
   const navbarRef = useRef(null); 
   const cartItems = useSelector((state) => state.cart.items);
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const { content } = useSelector((state) => state.lang);
+  const dispatch = useDispatch();
+
+  const changeLang = () => {
+    dispatch(toggleLang());
+  };
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -51,7 +63,7 @@ export default function Navbar() {
     <header className="navbar" role="banner" ref={navbarRef}>
       <Link to="/" className="brand">
         <div className="logo">🛒</div>
-        FreshChart
+        {content.FreshChart}
       </Link>
 
       <input className="hamburger" id="nav-toggle" type="checkbox" />
@@ -65,11 +77,6 @@ export default function Navbar() {
         <ul className="menu">
           {Usertoken && token ? (
             <>
-              <li>
-                <NavLink to="/orders">
-                  <FaBoxOpen /> MyOrders
-                </NavLink>
-              </li>
               <li>
                 <NavLink to="/wishlist">
                   <BadgeCounter
@@ -85,11 +92,19 @@ export default function Navbar() {
                 </NavLink>
               </li>
 
-              {/* Search Button */}
               <li>
                 <Tooltip title="Search">
                   <IconButton onClick={() => setShowSearch(!showSearch)} sx={{ color: '#09c' }}>
                     <FaSearch />
+                  </IconButton>
+                </Tooltip>
+              </li>
+
+
+              <li>
+                <Tooltip title="Change Language">
+                  <IconButton onClick={changeLang} sx={{ color: '#09c' }}>
+                    <MdLanguage />
                   </IconButton>
                 </Tooltip>
               </li>
@@ -112,27 +127,35 @@ export default function Navbar() {
             </>
           ) : (
             <>
+               <li>
+                <Tooltip title="Change Language">
+                  <IconButton onClick={changeLang} sx={{ color: '#09c' }}>
+                    <MdLanguage />
+                  </IconButton>
+                </Tooltip>
+              </li>
               <li>
                 <NavLink to="/register" className="cta">
-                  <FiUserPlus /> Register
+                  <FiUserPlus /> {content.RegisterButton}
                 </NavLink>
               </li>
+              
               <li>
                 <NavLink to="/login" className="cta">
-                  <FiLogIn /> Login
+                  <FiLogIn /> {content.loginButton}
                 </NavLink>
               </li>
+              
             </>
           )}
         </ul>
       </nav>
 
-      {/* Search Box */}
       {showSearch && (
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder={content.SearchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             autoFocus

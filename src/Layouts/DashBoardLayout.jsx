@@ -13,6 +13,5 @@ function DashboardLayout() {
     </div>
   );
 }
-// <SideBarComponent />
 
 export default DashboardLayout;

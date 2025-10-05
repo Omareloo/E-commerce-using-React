@@ -5,12 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import * as Yup from "yup";
 import { userContext } from "../../Context/Context";
+import { useSelector } from "react-redux";
 
 export default function Login() {
   const [ApiError, setApiErorr] = useState("");
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate();
   const {setToken } = useContext(userContext);
+    const {content} = useSelector((state) => state.lang);
+
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -37,12 +40,10 @@ export default function Login() {
       }
 
       if (!token) {
-        // مفيش توكن → نرجعه على صفحة اللوجن
         navigate("/login");
         return;
       }
 
-      // نخزن التوكن
       localStorage.setItem("token", token);
       setToken(token);
 
@@ -90,7 +91,7 @@ export default function Login() {
     <div className={style.page}>
       <form className={style.card} onSubmit={formik.handleSubmit} noValidate>
         <div className={style.title}>
-          <h3>Login Now</h3>
+          <h3>{content.LoginNow}</h3>
           {ApiError && <div className={style.apiError}>{ApiError}</div>}
         </div>
 
@@ -114,13 +115,13 @@ export default function Login() {
         ))}
 
         <button type="submit" className={style.btnSubmit} disabled={spinner}>
-          {spinner ? <span className={style.spinner} /> : "Login"}
+          {spinner ? <span className={style.spinner} /> : content.loginButton}
         </button>
 
         <p className={style.accountText}>
-          Don’t have an account?{" "}
+          {content.dontHaveAccount}?{" "}
           <Link to="/register" className={style.loginLink}>
-            Register
+            {content.RegisterButton}
           </Link>
         </p>
       </form>

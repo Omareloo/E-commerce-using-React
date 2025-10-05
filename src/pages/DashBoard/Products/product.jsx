@@ -8,12 +8,13 @@ import {
 } from "../../../services/productservice";
 import ProductTable from "../../../components/DashBoardComp/ProductTable/producttable";
 import ProductDialog from "../../../components/DashBoardComp/ProductFormModel/productformmodel";
+import { useSelector } from "react-redux";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
+  const {content} = useSelector((state) => state.lang);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -76,7 +77,7 @@ export default function Products() {
   return (
     <Container sx={{ py: 4 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Products Dashboard
+        {content.Products}
       </Typography>
 
       <Button
@@ -85,8 +86,7 @@ export default function Products() {
         onClick={handleAddClick}
         sx={{ mb: 4 }}
       >
-        Add Product
-      </Button>
+        {content.AddProduct}      </Button>
 
       <Box sx={{ mt: 4 }}>
         <ProductTable

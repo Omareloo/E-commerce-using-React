@@ -16,10 +16,11 @@ import { addCartItem, removeCartItem } from '../../redux/slices/cartSlice';
 import { addToWishlist, removeFromWishlist } from '../../redux/slices/wishlistSlice';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
+
 export default function Home() {
   const items = [slid1, slid2, slid3];
   const location = useLocation();
-
+  const {content} = useSelector((state) => state.lang);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -115,8 +116,7 @@ export default function Home() {
       <div className="products">
         {loading ? (
           <p style={{ textAlign: 'center', width: '100%', padding: '20px', fontSize: '18px' }}>
-            Loading products...
-          </p>
+            {content.loading}          </p>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
             <Card

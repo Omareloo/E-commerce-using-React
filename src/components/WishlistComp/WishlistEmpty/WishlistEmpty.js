@@ -1,7 +1,9 @@
 import { Box, Typography, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useSelector } from 'react-redux';
 
 const WishlistEmpty = ({ onBrowse }) => {
+  const {content} = useSelector((state) => state.lang);
   return (
     <Box
       display="flex"
@@ -20,12 +22,11 @@ const WishlistEmpty = ({ onBrowse }) => {
         }}
       />
       <Typography variant="h5" fontWeight="bold" gutterBottom>
-        Your wishlist is empty
-      </Typography>
+        {content.Yourwishlistisempty
+        }      </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400, mb: 4 }}>
-        Start adding your favorite products to save and review them later.
-      </Typography>
+        {content.undertextwishlist}      </Typography>
 
       <Button
         variant="contained"
@@ -34,7 +35,7 @@ const WishlistEmpty = ({ onBrowse }) => {
         sx={{ borderRadius: 3, textTransform: 'none' }}
         onClick={onBrowse}
       >
-        Start shopping
+        {content.StartShoppingButton}
       </Button>
     </Box>
   );

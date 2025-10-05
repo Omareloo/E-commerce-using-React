@@ -8,7 +8,7 @@ const Counter = ({ value, onIncrease, onDecrease, onDelete }) => {
     if (value > 1) {
       onDecrease();
     } else {
-      onDelete(); // لو الكمية = 1، نحذف العنصر
+      onDelete();
     }
   };
 

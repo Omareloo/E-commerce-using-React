@@ -10,7 +10,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People"; // 👤 أيقونة Users
+import PeopleIcon from "@mui/icons-material/People"; 
 import { Link, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;

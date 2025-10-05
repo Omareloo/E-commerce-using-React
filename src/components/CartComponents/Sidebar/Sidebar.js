@@ -2,24 +2,26 @@ import { useState } from 'react';
 import { Box, Typography, TextField } from '@mui/material';
 import Title from '../Title/Title';
 import MainButton from '../MainButton/MainButton';
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({ totalPrice, onMakeOrder, itemCount }) => {
   const [address, setAddress] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const { content } = useSelector((state) => state.lang);
 
-  // Validation function
+
   const validateAddress = (value) => {
     const hasLetter = /[A-Za-z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
     if (!value.trim()) {
-      setError('Please enter your address');
+      setError(content.PleaseEnterYourAddress);
       return false;
     } else if (value.trim().length < 8) {
-      setError('Address must be at least 8 characters long');
+      setError(content.AddressMustBeAtLeast8CharactersLong);
       return false;
     } else if (!hasLetter || !hasNumber) {
-      setError('Address must contain both letters and numbers');
+      setError(content.AddressMustContainBothLettersAndNumbers);
       return false;
     }
     setError('');
@@ -62,7 +64,7 @@ const Sidebar = ({ totalPrice, onMakeOrder, itemCount }) => {
         },
       }}
     >
-      <Title title="My Cart" itemCount={itemCount} />
+      <Title title={content.MyCart} itemCount={itemCount} />
 
       <Typography
         variant="h6"
@@ -72,15 +74,16 @@ const Sidebar = ({ totalPrice, onMakeOrder, itemCount }) => {
           overflowWrap: 'break-word',
         }}
       >
-        Total Price: <span style={{ fontWeight: 'bold' }}>{totalPrice || '0.00'} EGP</span>
+        {content.TotalPrice}<span style={{ fontWeight: 'bold' }}>{totalPrice || '0.00'} {content.currency}</span>
       </Typography>
       <Typography variant="body1" sx={{ alignSelf: 'flex-start', mb: 1 }}>
-        Your address:
+        {content.ShippingAddress}:
       </Typography>
       <TextField
         value={address}
         onChange={handleChange}
-        placeholder="Enter your address"
+        placeholder={content.PleaseEnterYourAddress}
+        variant="outlined"
         fullWidth
         size="small"
         error={!!error}
@@ -98,7 +101,7 @@ const Sidebar = ({ totalPrice, onMakeOrder, itemCount }) => {
         }}
       />
       <MainButton
-        label={success ? 'Order placed successfully!' : 'Make an order'}
+        label={success ? content.orderplacedsuccessfully : content.makeanorder}
         onClick={handleOrderClick}
         baseColor={success ? '#4caf50' : '#ffeb3b'}
         hoverColor={success ? '#43a047' : '#fdd835'}

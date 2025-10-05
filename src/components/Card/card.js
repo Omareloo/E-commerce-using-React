@@ -14,6 +14,7 @@ export default function Card({
   isFav,
 }) {
   const cartItems = useSelector((state) => state.cart.items);
+  const { content } = useSelector((state) => state.lang);
 
   const isInCart = cartItems.some((item) => item.productId._id === product._id);
 
@@ -28,10 +29,10 @@ export default function Card({
   const handleCartAction = (event) => {
     if (isInCart) {
       if (onRemoveFromCart) onRemoveFromCart(product._id);
-      setMessage('Item removed from cart');
+      setMessage(content.snackbar);
     } else {
       if (onAddToCart) onAddToCart(product._id);
-      setMessage('Item added to cart');
+      setMessage(content.snackbar1);
     }
 
     setAnchorEl(event.currentTarget);
@@ -75,7 +76,7 @@ export default function Card({
 
       <div className="card-footer">
         <button className="btnAdd" onClick={handleCartAction}>
-          {isInCart ? 'Remove From Cart' : 'Add To Cart'}
+          {isInCart ? content.removefromcart : content.AddToCartButton}
         </button>
         <Popover
           open={open}

@@ -4,6 +4,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Counter from '../Counter/Counter';
 import MyButton from '../MyButton/MyButton';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 const ProductCard = ({
   _id,
@@ -16,7 +18,10 @@ const ProductCard = ({
   onDelete,
   onAddToFavourite,
 }) => {
+          const { content } = useSelector((state) => state.lang);
+
   return (
+
     <Card
       sx={{
         width: { xs: '100%', md: '72vw' },
@@ -30,7 +35,6 @@ const ProductCard = ({
     >
       <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-          {/* Product Image */}
           <Box
             sx={{
               width: { xs: 100, sm: 120, md: 140 },
@@ -52,19 +56,17 @@ const ProductCard = ({
             />
           </Box>
 
-          {/* Product Details */}
           <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-            {/* Product Title - 2 lines only */}
             <Typography
               variant="body1"
               sx={{
                 fontWeight: 500,
                 lineHeight: 1.3,
                 display: '-webkit-box',
-                WebkitLineClamp: 2, // 2 lines only
+                WebkitLineClamp: 2, 
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis', // Add ... at the end
+                textOverflow: 'ellipsis',
                 mb: 1,
                 fontSize: { xs: '0.875rem', sm: '1rem' },
               }}
@@ -77,7 +79,6 @@ const ProductCard = ({
               </Link>
             </Typography>
 
-            {/* Price and Counter Row */}
             <Box
               sx={{
                 display: 'flex',
@@ -86,7 +87,6 @@ const ProductCard = ({
                 mb: 2,
               }}
             >
-              {/* Price - Top right */}
               <Typography
                 variant="h6"
                 sx={{
@@ -95,10 +95,9 @@ const ProductCard = ({
                   fontSize: { xs: '1rem', sm: '1.25rem' },
                 }}
               >
-                EGP {price.toLocaleString()}
+                {content.currency} {price.toLocaleString()}
               </Typography>
 
-              {/* Quantity Counter */}
               <Counter
                 value={quantity}
                 onIncrease={onIncrease}
@@ -107,19 +106,18 @@ const ProductCard = ({
               />
             </Box>
 
-            {/* Action Buttons */}
             <Box sx={{ display: 'flex', gap: 2 }}>
               <MyButton
                 icon={DeleteIcon}
-                label="Remove"
+                label={content.Remove}
                 handleAction={onDelete}
-                message="Item removed from cart"
+                message={content.snackbar}
               />
               <MyButton
                 icon={BookmarkBorderIcon}
-                label="Add to favourite"
+                label={content.Addtofavourite}
                 handleAction={onAddToFavourite}
-                message="Item added to favourite"
+                message={content.snackbar1}
               />
             </Box>
           </Box>
@@ -128,5 +126,6 @@ const ProductCard = ({
     </Card>
   );
 };
+
 
 export default ProductCard;

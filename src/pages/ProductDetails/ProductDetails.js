@@ -8,12 +8,14 @@ import { Typography, Box, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import axiosInstance from '../../axiousinstance/axiousinstance';
 
+
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {content} = useSelector((state) => state.lang);
 
   const cartItems = useSelector((state) => state.cart.items);
   const wishlistItems = useSelector((state) => state.wishlist.items);
@@ -79,8 +81,7 @@ const ProductDetails = () => {
           sx={{ borderRadius: 3, textTransform: 'none' }}
           onClick={handleBrowse}
         >
-          Start shopping
-        </Button>
+          {content.StartShoppingButton}        </Button>
       </Box>
     </>
   );

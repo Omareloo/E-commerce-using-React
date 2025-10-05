@@ -14,6 +14,7 @@ const WishList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items, loading, error } = useSelector((state) => state.wishlist);
+  const { content } = useSelector((state) => state.lang);
 
   useEffect(() => {
     dispatch(fetchWishlist());
@@ -46,9 +47,9 @@ const WishList = () => {
         <>
           <MyButton
             icon={() => null}
-            label="Delete all items"
+            label={content.deleteItems}
             handleAction={handleDeleteAll}
-            message="All items deleted from wishlist"
+            message={content.AllItemsDeletedFromCart}
           />
           <WishlistTable
             items={items}

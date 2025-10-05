@@ -23,14 +23,15 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
 
   const [anchorel, setAnchorel] = useState(null);
   const [message, setMessage] = useState('');
+  const {content} = useSelector((state) => state.lang);
 
   const handleCartAction = (event) => {
     if (isInCart) {
       if (onRemoveFromCart) onRemoveFromCart(item.productId._id);
-      setMessage('Item removed from cart');
+      setMessage(content.snackbar);
     } else {
       if (onAddToCart) onAddToCart(item.productId._id);
-      setMessage('Item added to cart');
+      setMessage(content.snackbar1);
     }
 
     setAnchorel(event.currentTarget);
@@ -55,7 +56,6 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
 
   return (
     <TableRow sx={{ height: 100 }}>
-      {/* Delete */}
       <TableCell align="center">
         <Box sx={{ display: 'flex' }}>
           <IconButton color="error" onClick={handleRemoveClick}>
@@ -91,12 +91,10 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
                 whiteSpace: 'nowrap',
               }}
             >
-              Item removed from wishlist
-            </Alert>
+              {content.snackbar}            </Alert>
           </Popover>
         </Box>
       </TableCell>
-      {/* Image */}
       <TableCell
         align="center"
         sx={{
@@ -130,7 +128,6 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
         </Box>
       </TableCell>
 
-      {/* Product Title */}
       <TableCell align="center">
         <Typography fontWeight="bold">
           <Link
@@ -141,17 +138,14 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
           </Link>
         </Typography>
       </TableCell>
-      {/* Price */}
       <TableCell align="center">
         <Typography variant="body1" fontWeight="bold" color="success.main">
           {item.productId.price}
         </Typography>
       </TableCell>
-      {/* Stock */}
       <TableCell align="center">
         <Chip label="In Stock" color="success" variant="outlined" />
       </TableCell>
-      {/* Actions */}
       <TableCell align="center">
         <Button
           variant="contained"
@@ -160,7 +154,7 @@ const WishlistRow = ({ item, onRemove, onAddToCart, onRemoveFromCart }) => {
           sx={{ borderRadius: 3, textTransform: 'none' }}
           onClick={handleCartAction}
         >
-          {isInCart ? 'Remove From Cart' : 'Add To Cart'}
+          {isInCart ? content.removefromcart : content.AddToCartButton}
         </Button>
 
         <Popover

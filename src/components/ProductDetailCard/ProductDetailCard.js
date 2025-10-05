@@ -2,9 +2,14 @@ import { Box, Typography } from '@mui/material';
 import MyButton from '../CartComponents/MyButton/MyButton';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useSelector } from 'react-redux';
 
 const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist, isInCart, isInWishlist }) => {
+      const { content } = useSelector((state) => state.lang);
+
   if (!product) return null;
+
+
 
   return (
     <Box
@@ -28,11 +33,11 @@ const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist, isInCart, is
       <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Typography variant="h4">{product.title}</Typography>
         <Typography variant="h6">
-          Price: <span style={{ color: '#1976d2' }}>EGP {product.price.toFixed(2)}</span>
+          {content.Price}:<span style={{ color: '#1976d2' }}>{content.currency} {product.price.toFixed(2)}</span>
         </Typography>
-        <Typography variant="body1">Description: {product.description}</Typography>
+        <Typography variant="body1">{content.Description}: {product.description}</Typography>
         <Typography variant="subtitle2">
-          Last Updated:{' '}
+          {content.LastUpdated}{' '}
           {new Date(product.updatedAt).toLocaleString('en-GB', {
             day: 'numeric',
             month: 'short',
@@ -44,17 +49,17 @@ const ProductDetailCard = ({ product, onAddToCart, onAddToWishlist, isInCart, is
         </Typography>
         <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
           <MyButton
-            label={isInCart ? 'Remove from Cart' : 'Add to Cart'}
+            label={isInCart ? content.removefromcart : content.AddToCartButton}
             handleAction={onAddToCart}
             icon={ShoppingCartIcon}
-            message={isInCart ? 'Item removed from cart' : 'Item added to cart'}
+            message={isInCart ? content.snackbar : content.snackbar1}
           />
 
           <MyButton
-            label={isInWishlist ? 'Remove from Favourite' : 'Add to Favourite'}
+            label={isInWishlist ? content.removefromfavourite : content.Addtofavourite}
             handleAction={onAddToWishlist}
             icon={BookmarkBorderIcon}
-            message={isInWishlist ? 'Item removed from favourite' : 'Item added to favourite'}
+            message={isInWishlist ? content.snackbar3 : content.snackbar2}
           />
         </Box>
       </Box>

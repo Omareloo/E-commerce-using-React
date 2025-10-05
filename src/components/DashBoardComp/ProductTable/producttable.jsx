@@ -8,24 +8,27 @@ import {
   Paper,
   Button,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const ProductTable = ({ products, onEdit, onDelete }) => {
   console.log(products);
-  
+  const { content } = useSelector((state) => state.lang);
+
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Image</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>SubCategory</TableCell>
-            <TableCell>Slug</TableCell>
-            <TableCell>Created At</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{content.Title}</TableCell>
+            <TableCell>{content.Price}</TableCell>
+            <TableCell>{content.Image}</TableCell>
+            <TableCell>{content.Description}</TableCell>
+            <TableCell>{content.Category}</TableCell>
+            <TableCell>{content.SubCategory}</TableCell>
+            <TableCell>{content.Slug}</TableCell>
+            <TableCell>{content.CreatedAt}</TableCell>
+            <TableCell>{content.Actions}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,7 +37,7 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>
-                      <img src={`http://localhost:3000/uploads/products/${product.image}`} alt={product.title} className="card-img" style={{ width: "100px", height: "80px" }} />
+                <img src={`http://localhost:3000/uploads/products/${product.image}`} alt={product.title} className="card-img" style={{ width: "100px", height: "80px" }} />
               </TableCell>
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.Category?.name || "No Category"}</TableCell>
@@ -48,14 +51,14 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
                   onClick={() => onEdit(product)}
                   sx={{ mr: 1 }}
                 >
-                  Edit
+                  {content.Edit}
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
                   onClick={() => onDelete(product._id)}
                 >
-                  Delete
+                  {content.Delete}
                 </Button>
               </TableCell>
             </TableRow>

@@ -1,13 +1,14 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
-
+import { useSelector } from "react-redux";
 const CategoryTable = ({ categories, onEdit, onDelete }) => {
+  const {content} = useSelector((state) => state.lang);
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{content.Name}</TableCell>
+            <TableCell>{content.Actions}</TableCell>
           </TableRow>
         </TableHead>
 
@@ -22,14 +23,14 @@ const CategoryTable = ({ categories, onEdit, onDelete }) => {
                   onClick={() => onEdit(category)}
                   sx={{ mr: 1 }}
                 >
-                  Edit
+                  {content.Edit}
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
                   onClick={() => onDelete(category._id)}
                 >
-                  Delete
+                  {content.Delete}
                 </Button>
               </TableCell>
             </TableRow>

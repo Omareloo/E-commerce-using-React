@@ -18,16 +18,17 @@ import EmptyCart from '../../components/CartComponents/EmptyCart/EmptyCart';
 import { addToWishlist } from '../../redux/slices/wishlistSlice';
 import { createOrder } from '../../redux/slices/createOrderSlice';
 
+
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items, totalPrice, loading, error } = useSelector((state) => state.cart);
+  const {content} = useSelector((state) => state.lang);
 
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // Handlers
   const handleIncrease = (id, quantity) => {
     dispatch(updateItemQuantity({ productId: id, quantity: quantity + 1 }));
   };
@@ -81,7 +82,7 @@ const Cart = () => {
     navigate('/');
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
+  if (loading) return <Typography>{content.Loading}</Typography>;
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
@@ -105,7 +106,6 @@ const Cart = () => {
               gap: { xs: 3, md: 2 },
             }}
           >
-            {/* Cards Section */}
             <Box
               sx={{
                 flex: 1,
@@ -115,14 +115,13 @@ const Cart = () => {
                 gridTemplateColumns: '1fr',
               }}
             >
-              <Title title="My Cart" itemCount={items.length} />
+              <Title title={content.MyCart} itemCount={items.length} />
               <MyButton
                 icon={() => null}
-                label="Delete all items"
+                label={content.deleteItems}
                 handleAction={handleDeleteAll}
-                message="All items deleted from cart"
+                message={content.AllItemsDeletedFromCart}
               />
-
               {items.map((product) => (
                 <ProductCard
                   key={product.productId._id}
@@ -138,8 +137,6 @@ const Cart = () => {
                 />
               ))}
             </Box>
-
-            {/* Sidebar Section */}
             <Box
               sx={{
                 width: { xs: '100%', md: '22vw' },
@@ -157,7 +154,7 @@ const Cart = () => {
 
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center', pb: 2 }}>
             <MainButton
-              label="Back to Home"
+              label={content.backtohome}
               onClick={handleButtonClick}
               baseColor="#1976d2"
               hoverColor="#1565c0"

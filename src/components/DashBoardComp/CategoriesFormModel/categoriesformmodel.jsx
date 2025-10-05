@@ -9,8 +9,13 @@ import {
   Stack,
 } from "@mui/material";
 
+import { useSelector } from "react-redux";
+
+
 const CategoryDialog = ({ open, onClose, onSave, category }) => {
   const [formData, setFormData] = useState({ name: "" });
+    const {content} = useSelector((state) => state.lang);
+
 
   useEffect(() => {
     if (category) {
@@ -31,12 +36,12 @@ const CategoryDialog = ({ open, onClose, onSave, category }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{category ? "Edit Category" : "Add Category"}</DialogTitle>
+      <DialogTitle>{category ? content.EditCategory : content.AddCategory}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ py: 2 }}>
           <TextField
             fullWidth
-            label="Category Name"
+            label={content.CategoryName}
             name="name"
             value={formData.name}
             onChange={handleChange}

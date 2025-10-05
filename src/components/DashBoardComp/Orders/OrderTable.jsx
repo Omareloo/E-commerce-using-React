@@ -9,8 +9,13 @@ import {
   IconButton,
 } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+
 
 export default function OrderTable({ orders, onAccept, onReject }) {
+
+    const {content} = useSelector((state) => state.lang);
+
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "shipped":
@@ -31,11 +36,11 @@ export default function OrderTable({ orders, onAccept, onReject }) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Customer</TableCell>
-            <TableCell>Total Price</TableCell>
-            <TableCell>Shipping Address</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{content.Customer}</TableCell>
+            <TableCell>{content.TotalPrice}</TableCell>
+            <TableCell>{content.ShippingAddress}</TableCell>
+            <TableCell>{content.Status}</TableCell>
+            <TableCell>{content.Actions}</TableCell>
           </TableRow>
         </TableHead>
 
