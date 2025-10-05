@@ -75,7 +75,7 @@ export default function Navbar() {
 
       <nav role="navigation">
         <ul className="menu">
-          {Usertoken && token ? (
+          {token ? (
             <>
               <li>
                 <NavLink to="/wishlist">

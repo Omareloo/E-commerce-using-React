@@ -39,6 +39,7 @@
 
 /* products grid */
 .products {
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 أعمدة ثابتة */
   gap: 15px;

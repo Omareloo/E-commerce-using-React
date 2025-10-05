@@ -65,7 +65,6 @@ export default function Home() {
       setLoading(true);
       try {
         const res = await getProducts(page, currentKeyword);
-        console.log('Products response:', res);
 
         if (res && res.results) {
           setProducts(res.results);

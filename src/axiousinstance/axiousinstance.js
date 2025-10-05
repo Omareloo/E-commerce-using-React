@@ -8,8 +8,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
-  console.log('Token:', token);
-  console.log('Role:', role);
+
 
   if(role === 'Admin'){
     config.headers['Authorization'] = `Admin ${token}`;
