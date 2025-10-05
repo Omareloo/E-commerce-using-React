@@ -13,14 +13,13 @@ import Card from '../../components/Card/card';
 import CustomPagination from '../../components/Pagenation/CustomPagenation';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem, removeCartItem } from '../../redux/slices/cartSlice';
-import { addToWishlist, removeFromWishlist } from '../../redux/slices/wishlistSlice';
+import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../redux/slices/wishlistSlice';
 import EmptyState from '../../components/EmptyState/EmptyState';
-
 
 export default function Home() {
   const items = [slid1, slid2, slid3];
   const location = useLocation();
-  const {content} = useSelector((state) => state.lang);
+  const { content } = useSelector((state) => state.lang);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -115,7 +114,8 @@ export default function Home() {
       <div className="products">
         {loading ? (
           <p style={{ textAlign: 'center', width: '100%', padding: '20px', fontSize: '18px' }}>
-            {content.loading}          </p>
+            {content.loading}{' '}
+          </p>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
             <Card
@@ -123,11 +123,11 @@ export default function Home() {
               product={p}
               onAddToCart={(id) => dispatch(addCartItem({ productId: id, quantity: 1 }))}
               onRemoveFromCart={(id) => dispatch(removeCartItem(id))}
-              onAddToFavourite={(id) => dispatch(addToWishlist(id))}
+              onAddToFavourite={(id) =>
+                dispatch(addToWishlist(id)).then(() => dispatch(fetchWishlist()))
+              }
               onRemoveFromFavourite={(id) => dispatch(removeFromWishlist(id))}
-              isFav={wishlistItems.some(
-                (item) => (item.productId._id || item.productId) === p._id
-              )}
+              isFav={wishlistItems.some((item) => (item.productId._id || item.productId) === p._id)}
             />
           ))
         ) : (
